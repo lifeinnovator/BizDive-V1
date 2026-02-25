@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase-server'
 import { notFound, redirect } from 'next/navigation'
-import DiagnosisRadarChart from '@/components/report/RadarChart'
 import { FEEDBACK_DB, getStageInfo } from '@/data/feedback'
 import { PrintButton, ExpertRequestButton, ReportHeaderActions } from '@/components/report/ReportActions'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -11,6 +10,7 @@ import { getDiagnosisQuestions } from '@/lib/diagnosis-logic'
 import ConsultantBanner from '@/components/report/ConsultantBanner'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import DiagnosisRadarChart from '@/components/report/RadarChart'
 
 interface ReportPageProps {
     params: Promise<{ id: string }>
