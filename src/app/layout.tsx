@@ -3,6 +3,9 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://bizdive.vercel.app'
+  ),
   title: "BizDive",
   description: "기업의 현재 상태를 7차원 입체 분석으로 진단하고 솔루션을 제안합니다.",
   icons: {
