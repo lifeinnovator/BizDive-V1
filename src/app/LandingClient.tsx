@@ -54,7 +54,7 @@ const Hero = () => {
                         BizDive - 7D 기업경영 심층자가진단
                     </span>
                 </div>
-                <h1 className="text-[54px] sm:text-[78px] lg:text-[94px] font-extrabold tracking-tighter text-indigo-950 leading-[1.05] mb-8">
+                <h1 className="text-[40px] sm:text-[64px] lg:text-[94px] font-extrabold tracking-tighter text-indigo-950 leading-[1.1] mb-8 break-keep">
                     직관을 넘어, <br />
                     데이터로 증명하는 <br />
                     비즈니스 경쟁력.
