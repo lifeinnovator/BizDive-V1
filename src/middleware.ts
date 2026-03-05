@@ -39,8 +39,8 @@ export async function middleware(request: NextRequest) {
     // Refresh the session
     const { data: { user } } = await supabase.auth.getUser()
 
-    // 1. Protect /admin routes
-    if (pathname.startsWith('/admin')) {
+    // 1. Protect /admin routes (except /admin/demo/**)
+    if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/demo')) {
         if (!user) {
             const url = request.nextUrl.clone()
             url.pathname = '/login'

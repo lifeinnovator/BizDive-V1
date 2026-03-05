@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { Database } from '@/types/database'
 import QuestionSection from './QuestionSection'
 import { Button } from '@/components/ui/button'
@@ -146,7 +147,7 @@ export default function DiagnosisForm({
             {/* Focus Header */}
             <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
                 <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                    <Link href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                         <img src="/favicon.png" alt="BizDive" className="w-8 h-8 rounded-xl shadow-sm" />
                         <div>
                             <h1 className="text-[17px] font-bold text-slate-900 tracking-tight">
@@ -160,7 +161,7 @@ export default function DiagnosisForm({
                                 <span>{dateStr}</span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                     <div className="flex items-center gap-4">
                         <Button
                             variant="ghost"

@@ -146,7 +146,7 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                             <Link href="/dashboard" className="p-2 -ml-2 rounded-full hover:bg-slate-100 transition-colors">
                                 <ArrowLeft className="h-5 w-5 text-slate-600" />
                             </Link>
-                            <div className="flex flex-col">
+                            <Link href="/" className="flex flex-col hover:opacity-80 transition-opacity">
                                 <h1 className="text-[17px] font-bold text-gray-900 leading-tight flex items-center gap-2">
                                     <img src="/favicon.png" alt="BizDive" className="w-5 h-5 rounded" />
                                     상세 진단 결과
@@ -154,7 +154,7 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                 <span className="text-xs text-slate-500 font-medium mt-0.5">
                                     {record.company_name || profile?.company_name || '회사명 미상'} | {profile?.user_name || '사용자'} | {new Date(record.created_at).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
                                 </span>
-                            </div>
+                            </Link>
                         </div>
                         <ReportHeaderActions />
                     </div>

@@ -1,0 +1,31 @@
+commit e05f430de1594ea5849fb0ddf77b63672709fe81
+Merge: d8c56a5 3bea795
+Author: Antigravity Agent <antigravity@gemini.ai>
+Date:   Wed Mar 4 20:56:12 2026 +0900
+
+    Resolve merge conflicts
+
+commit 3bea795b57e895e42817257c7e2d20c33b17032b
+Merge: 2810a6a b3bee28
+Author: BizDive Owner <life.innovator@gmail.com>
+Date:   Wed Mar 4 20:45:58 2026 +0900
+
+    Merge and resolve conflicts, implemented landing page
+
+commit 2810a6afaa85ed9af9b0a8903cbdb1cd77f8185a
+Author: BizDive Owner <life.innovator@gmail.com>
+Date:   Wed Mar 4 14:55:03 2026 +0900
+
+    feat: implement new landing page UI and navigation
+
+commit b3bee286d20300c6d086bd7f00f7a7e712c26b5e
+Author: Jina <jina@example.com>
+Date:   Thu Feb 26 18:54:17 2026 +0900
+
+     chore: trigger deployment for bizdive-service
+
+commit f018c80a902c7afefb1d3c77c8dc425fc259ef3d
+Author: Jina <jina@example.com>
+Date:   Thu Feb 26 18:47:48 2026 +0900
+
+     fix: delete invalid vercel.json rewrite rule

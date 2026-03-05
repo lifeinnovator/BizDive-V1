@@ -29,12 +29,14 @@ interface SidebarProps {
     isCollapsed: boolean;
     toggleCollapse: () => void;
     userRole?: string;
+    isDemo?: boolean;
 }
 
 export default function AdminSidebar({
     isCollapsed,
     toggleCollapse,
-    userRole
+    userRole,
+    isDemo = false
 }: SidebarProps) {
     const pathname = usePathname()
 
@@ -68,11 +70,12 @@ export default function AdminSidebar({
                 {/* Navigation */}
                 <nav className="flex-grow py-6 px-3 space-y-1">
                     {filteredNavItems.map((item) => {
-                        const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))
+                        const href = isDemo ? (item.href === '/admin' ? '/admin/demo' : item.href.replace('/admin/', '/admin/demo/')) : item.href
+                        const isActive = pathname === href || (href !== '/admin' && href !== '/admin/demo' && pathname.startsWith(href))
                         return (
                             <Link
                                 key={item.name}
-                                href={item.href}
+                                href={href}
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 group ${isActive
                                     ? 'bg-indigo-600/90 text-white'
                                     : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
@@ -87,8 +90,8 @@ export default function AdminSidebar({
 
                 {/* Footer */}
                 <div className="p-4 border-t border-slate-800">
-                    <Link href="/dashboard" className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-2">
-                        {!isCollapsed && <span>← 서비스 바로가기</span>}
+                    <Link href="/" className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-2">
+                        {!isCollapsed && <span>{isDemo ? '← 랜딩 페이지로 돌아가기' : '← 서비스 바로가기'}</span>}
                     </Link>
                 </div>
             </div>

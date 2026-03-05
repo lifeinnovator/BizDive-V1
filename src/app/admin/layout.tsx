@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import { Bell, Search, User } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 export default function AdminLayout({
     children,
@@ -12,8 +13,16 @@ export default function AdminLayout({
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [userProfile, setUserProfile] = useState<any>(null)
     const [groupName, setGroupName] = useState<string>('')
+    const pathname = usePathname()
+    const isDemo = pathname.startsWith('/admin/demo')
 
     React.useEffect(() => {
+        if (isDemo) {
+            setUserProfile({ role: 'group_admin' })
+            setGroupName('데모 그룹')
+            return
+        }
+
         const fetchProfile = async () => {
             const { createClient } = await import('@/lib/supabase')
             const supabase = createClient()
@@ -41,7 +50,7 @@ export default function AdminLayout({
             }
         }
         fetchProfile()
-    }, [])
+    }, [isDemo])
 
     return (
         <div className="min-h-screen bg-slate-50 flex">
@@ -49,6 +58,7 @@ export default function AdminLayout({
                 isCollapsed={isCollapsed}
                 toggleCollapse={() => setIsCollapsed(!isCollapsed)}
                 userRole={userProfile?.role}
+                isDemo={isDemo}
             />
 
             <div

@@ -42,7 +42,7 @@ export default async function DashboardPage() {
             {/* Header */}
             <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 pr-2">
+                    <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 pr-2 hover:opacity-80 transition-opacity">
                         <img src="/favicon.png" alt="BizDive" className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg flex-shrink-0" />
                         <div className="flex flex-col min-w-0">
                             <h1 className="text-[15.5px] sm:text-[18px] font-bold text-gray-900 leading-tight truncate">
@@ -52,7 +52,7 @@ export default async function DashboardPage() {
                                 {user.email}
                             </span>
                         </div>
-                    </div>
+                    </Link>
                     <ReportHeaderActions />
                 </div>
             </header>

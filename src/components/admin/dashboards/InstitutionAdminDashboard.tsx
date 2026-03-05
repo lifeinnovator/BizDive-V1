@@ -31,6 +31,7 @@ interface InstitutionAdminDashboardProps {
         totalProjects: number
         recentActivities: any[]
     }
+    isDemo?: boolean
 }
 
 const COMPARISON_DATA = [
@@ -43,7 +44,7 @@ const COMPARISON_DATA = [
     { dimension: 'D7', full_name: '성장 전략', score: 0, benchmark: 70 },
 ]
 
-export default function InstitutionAdminDashboard({ profile, stats }: InstitutionAdminDashboardProps) {
+export default function InstitutionAdminDashboard({ profile, stats, isDemo = false }: InstitutionAdminDashboardProps) {
     return (
         <div className="space-y-8 animate-in fade-in duration-700">
             {/* Institution Header */}
@@ -63,7 +64,7 @@ export default function InstitutionAdminDashboard({ profile, stats }: Institutio
                     </p>
                 </div>
                 <div className="flex gap-3 relative z-10">
-                    <Link href="/admin/projects">
+                    <Link href={isDemo ? "/admin/demo/projects" : "/admin/projects"}>
                         <Button className="bg-slate-900 text-white hover:bg-slate-800 font-bold px-6 h-12 rounded-xl shadow-lg shadow-slate-200">
                             신규 프로젝트 생성
                         </Button>

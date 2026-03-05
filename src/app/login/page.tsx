@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,8 +14,8 @@ export default function LoginPage() {
     const router = useRouter();
     const supabase = createClient();
 
-    // Mode: 'guest' (default) or 'login' (returning)
-    const [mode, setMode] = useState<'guest' | 'login'>('guest');
+    // Mode: 'login' (returning, default) or 'guest' (new)
+    const [mode, setMode] = useState<'guest' | 'login'>('login');
 
     // Form States
     const [email, setEmail] = useState('');
@@ -76,12 +77,14 @@ export default function LoginPage() {
         <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
             <Card className="w-full max-w-md mx-auto shadow-elevated border-0">
                 <CardHeader>
-                    <img
-                        src="/og-image.png"
-                        alt="BizDive Logo"
-                        className="w-[240px] mx-auto mb-2"
-                        onError={(e) => (e.currentTarget.style.display = 'none')}
-                    />
+                    <Link href="/" className="hover:opacity-80 transition-opacity flex justify-center">
+                        <img
+                            src="/og-image.png"
+                            alt="BizDive Logo"
+                            className="w-[240px] mb-2"
+                            onError={(e) => (e.currentTarget.style.display = 'none')}
+                        />
+                    </Link>
                     <div className="text-center">
                         <CardTitle className="text-xl font-bold text-foreground">
                             {mode === 'guest' ? '기업경영 자가진단 시작' : '7D 기업경영 심층자가진단'}
@@ -95,6 +98,21 @@ export default function LoginPage() {
                 </CardHeader>
 
                 <CardContent className="space-y-6 pt-4">
+                    {/* Mode Toggle Tabs */}
+                    <div className="flex bg-slate-100 p-1 rounded-xl">
+                        <button
+                            onClick={() => { setMode('login'); setError(null); }}
+                            className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all ${mode === 'login' ? 'bg-white text-indigo-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            회원 로그인
+                        </button>
+                        <button
+                            onClick={() => { setMode('guest'); setError(null); }}
+                            className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all ${mode === 'guest' ? 'bg-white text-indigo-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            비회원 진단
+                        </button>
+                    </div>
                     {mode === 'guest' ? (
                         /* GUEST START FORM */
                         <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
@@ -136,14 +154,7 @@ export default function LoginPage() {
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
 
-                            <div className="text-center pt-2">
-                                <button
-                                    onClick={() => { setMode('login'); setError(null); }}
-                                    className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors"
-                                >
-                                    이미 계정이 있으신가요? 로그인
-                                </button>
-                            </div>
+
                         </div>
                     ) : (
                         /* LOGIN FORM */
@@ -201,14 +212,7 @@ export default function LoginPage() {
                                 ) : '로그인'}
                             </Button>
 
-                            <div className="text-center pt-2">
-                                <button
-                                    onClick={() => { setMode('guest'); setError(null); }}
-                                    className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors"
-                                >
-                                    처음이신가요? 무료 진단 시작하기
-                                </button>
-                            </div>
+
                         </div>
                     )}
                 </CardContent>

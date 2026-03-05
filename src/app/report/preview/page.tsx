@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -208,7 +209,7 @@ export default function ReportPreviewPage() {
                         <button onClick={() => router.back()} className="p-2 -ml-2 rounded-xl hover:bg-slate-100 transition-colors">
                             <ArrowLeft className="h-5 w-5 text-slate-600" />
                         </button>
-                        <div className="flex flex-col">
+                        <Link href="/" className="flex flex-col hover:opacity-80 transition-opacity">
                             <h1 className="text-[17px] font-bold text-slate-900 leading-tight flex items-center gap-2">
                                 <img src="/favicon.png" alt="BizDive" className="w-5 h-5 rounded" />
                                 BizDive - 상세 진단 결과
@@ -216,7 +217,7 @@ export default function ReportPreviewPage() {
                             <span className="text-[11px] text-slate-400 font-medium mt-0.5">
                                 {profile.company_name} | {profile.user_name} | {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
                             </span>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </header>
