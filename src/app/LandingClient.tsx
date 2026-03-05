@@ -53,7 +53,7 @@ const Hero = () => {
             >
                 <div className="flex items-center justify-center gap-2 mb-6">
                     <span className="bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-sm font-bold tracking-tight border border-indigo-100 flex items-center gap-2 shadow-sm">
-                        <img src="/BizDive_Logo_Confirm.png" alt="" className="w-6 h-6 object-contain" />
+                        <img src="/favicon.png" alt="" className="w-4 h-4 opacity-80" />
                         BizDive - 7D 기업경영 심층자가진단
                     </span>
                 </div>
