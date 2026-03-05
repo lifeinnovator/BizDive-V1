@@ -338,7 +338,7 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                 <div className="flex flex-col gap-2">
                     <Link href="/" className="flex items-center gap-2 text-2xl font-bold tracking-tighter text-indigo-950">
-                        <img src="/favicon.png" alt="BizDive" className="w-6 h-6 rounded grayscale border border-slate-200 opacity-80" />
+                        <img src="/favicon.png" alt="BizDive" className="w-6 h-6 rounded border border-indigo-100 shadow-sm" />
                         BizDive.
                     </Link>
                     <p className="text-[13px] text-slate-500 font-medium tracking-wide">© 2026 Cube Inspiration Group., Co., Ltd. All rights reserved.</p>
