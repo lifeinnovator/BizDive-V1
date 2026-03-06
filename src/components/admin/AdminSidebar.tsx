@@ -47,7 +47,7 @@ export default function AdminSidebar({
 
     return (
         <aside
-            className={`bg-slate-900 text-white h-screen fixed left-0 top-0 z-40 transition-all duration-300 border-r border-slate-800 ${isCollapsed ? 'w-16' : 'w-64'
+            className={`bg-slate-900 text-white h-screen fixed left-0 top-0 z-40 transition-all duration-300 border-r border-slate-800 ${isCollapsed ? '-translate-x-full md:translate-x-0 w-64 md:w-16' : 'translate-x-0 w-64'
                 }`}
         >
             <div className="flex flex-col h-full">
@@ -61,10 +61,18 @@ export default function AdminSidebar({
                     )}
                     <button
                         onClick={toggleCollapse}
-                        className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors text-slate-500"
+                        className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors text-slate-500 hidden md:block"
                     >
                         {isCollapsed ? <Menu size={18} /> : <ChevronLeft size={18} />}
                     </button>
+                    {!isCollapsed && (
+                        <button
+                            onClick={toggleCollapse}
+                            className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors text-slate-500 md:hidden"
+                        >
+                            <X size={18} />
+                        </button>
+                    )}
                 </div>
 
                 {/* Navigation */}

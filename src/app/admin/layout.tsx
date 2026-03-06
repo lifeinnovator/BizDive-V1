@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import AdminSidebar from '@/components/admin/AdminSidebar'
-import { Bell, Search, User } from 'lucide-react'
+import { Bell, Search, User, Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 export default function AdminLayout({
@@ -15,6 +15,19 @@ export default function AdminLayout({
     const [groupName, setGroupName] = useState<string>('')
     const pathname = usePathname()
     const isDemo = pathname.startsWith('/admin/demo')
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setIsCollapsed(true);
+            } else {
+                setIsCollapsed(false);
+            }
+        };
+        handleResize(); // Initial check
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     React.useEffect(() => {
         if (isDemo) {
@@ -62,18 +75,34 @@ export default function AdminLayout({
             />
 
             <div
-                className={`flex-grow flex flex-col transition-all duration-300 ${isCollapsed ? 'ml-16' : 'ml-64'
+                className={`flex-grow flex flex-col transition-all duration-300 ${isCollapsed ? 'md:ml-16' : 'md:ml-64'
                     }`}
             >
+                {/* Mobile Overlay */}
+                {!isCollapsed && (
+                    <div
+                        className="fixed inset-0 bg-slate-900/50 z-30 md:hidden"
+                        onClick={() => setIsCollapsed(true)}
+                    />
+                )}
+
                 {/* Topbar */}
-                <header className="h-16 bg-white border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-8">
-                    <div className="flex items-center gap-4 bg-slate-100 px-4 py-2 rounded-xl focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
-                        <Search size={18} className="text-slate-400" />
-                        <input
-                            type="text"
-                            placeholder="기업명, 유저명 검색..."
-                            className="bg-transparent border-none outline-none text-sm w-64 placeholder:text-slate-400"
-                        />
+                <header className="h-16 bg-white border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-4 sm:px-8">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <button
+                            className="md:hidden p-2 -ml-2 text-slate-500 hover:bg-slate-100 rounded-md"
+                            onClick={() => setIsCollapsed(!isCollapsed)}
+                        >
+                            <Menu size={20} />
+                        </button>
+                        <div className="hidden sm:flex items-center gap-4 bg-slate-100 px-4 py-2 rounded-xl focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
+                            <Search size={18} className="text-slate-400" />
+                            <input
+                                type="text"
+                                placeholder="기업명, 유저명 검색..."
+                                className="bg-transparent border-none outline-none text-sm w-64 placeholder:text-slate-400"
+                            />
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-6">
@@ -101,7 +130,7 @@ export default function AdminLayout({
                 </header>
 
                 {/* Content Area */}
-                <main className="flex-grow p-8 max-w-7xl mx-auto w-full">
+                <main className="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full">
                     {children}
                 </main>
             </div>
