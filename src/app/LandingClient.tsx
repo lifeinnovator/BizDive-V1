@@ -229,12 +229,12 @@ const InstitutionExperience = () => {
 
     return (
         <section ref={targetRef} className="bg-slate-950 text-white relative h-[300vh]">
-            <div className="sticky top-0 h-screen flex flex-col md:flex-row items-center justify-center overflow-hidden px-6 md:px-12 max-w-7xl mx-auto">
+            <div className="sticky top-0 h-screen flex flex-col md:flex-row items-start md:items-center justify-start md:justify-center overflow-hidden px-6 md:px-12 max-w-7xl mx-auto">
 
                 {/* Text Content Left */}
-                <div className="w-full md:w-5/12 z-10 py-20 relative h-[400px] flex flex-col justify-center">
+                <div className="w-full md:w-5/12 z-10 py-12 sm:py-20 relative h-[400px] flex flex-col justify-start md:justify-center">
                     {/* Fixed Header */}
-                    <div className="absolute top-0 left-0 pt-10">
+                    <div className="absolute top-0 left-0 pt-8 sm:pt-10">
                         <div className="flex flex-col items-start gap-1 sm:gap-4 mb-8 sm:mb-8">
                             <span className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-[13px] font-bold tracking-[0.1em] uppercase shadow-sm">
                                 For Institutions
