@@ -176,9 +176,13 @@ const FounderExperience = () => {
         <section className="py-20 sm:py-32 bg-white px-6 md:px-12 border-b border-indigo-50">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-12 sm:mb-24 md:w-2/3">
-                    <div className="inline-flex items-center gap-3 mb-6">
-                        <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-full text-[12px] font-bold">For Founders</span>
-                        <span className="text-sm font-bold text-slate-500">비즈니스의 입체적 진단이 필요한 기업가</span>
+                    <div className="flex flex-col items-start gap-4 mb-8">
+                        <span className="px-4 py-1.5 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-lg text-[13px] font-bold tracking-[0.1em] uppercase shadow-sm">
+                            For Founders
+                        </span>
+                        <span className="text-[15px] sm:text-base font-bold text-slate-500">
+                            비즈니스의 입체적 진단이 필요한 기업가
+                        </span>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-indigo-950 mb-6 sm:mb-8 leading-tight break-keep">
                         아이디어의 현주소, <br />
@@ -231,9 +235,13 @@ const InstitutionExperience = () => {
                 <div className="w-full md:w-5/12 z-10 py-20 relative h-[400px] flex flex-col justify-center">
                     {/* Fixed Header */}
                     <div className="absolute top-0 left-0 pt-10">
-                        <div className="inline-flex items-center gap-3 mb-6">
-                            <span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-[12px] font-bold">For Institutions</span>
-                            <span className="text-sm font-bold text-slate-400">데이터 기반의 스마트한 지원 체계가 필요한 기관</span>
+                        <div className="flex flex-col items-start gap-4 mb-8">
+                            <span className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-[13px] font-bold tracking-[0.1em] uppercase shadow-sm">
+                                For Institutions
+                            </span>
+                            <span className="text-[15px] sm:text-base font-bold text-slate-400">
+                                데이터 기반의 스마트한 지원 체계가 필요한 기관
+                            </span>
                         </div>
                     </div>
 
