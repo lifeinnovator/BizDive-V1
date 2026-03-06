@@ -177,7 +177,7 @@ const FounderExperience = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="mb-12 sm:mb-24 md:w-2/3">
                     <div className="inline-flex items-center gap-3 mb-6">
-                        <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-full text-[12px] font-bold tracking-[0.15em] uppercase">For Founders</span>
+                        <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-full text-[12px] font-bold">For Founders</span>
                         <span className="text-sm font-bold text-slate-500">비즈니스의 입체적 진단이 필요한 기업가</span>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-indigo-950 mb-6 sm:mb-8 leading-tight break-keep">
@@ -232,7 +232,7 @@ const InstitutionExperience = () => {
                     {/* Fixed Header */}
                     <div className="absolute top-0 left-0 pt-10">
                         <div className="inline-flex items-center gap-3 mb-6">
-                            <span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-[12px] font-bold tracking-[0.15em] uppercase">For Institutions</span>
+                            <span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-[12px] font-bold">For Institutions</span>
                             <span className="text-sm font-bold text-slate-400">데이터 기반의 스마트한 지원 체계가 필요한 기관</span>
                         </div>
                     </div>
