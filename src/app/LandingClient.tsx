@@ -27,12 +27,12 @@ const NavigationBar = () => {
                         className="h-10 sm:h-12 w-auto"
                     />
                 </Link>
-                <div className="flex items-center gap-6">
-                    <Link href="/login" className="text-[15px] font-bold text-slate-500 hover:text-indigo-900 transition-colors hidden sm:block">
+                <div className="flex items-center gap-3 sm:gap-6">
+                    <Link href="/login" className="text-[13px] sm:text-[15px] font-bold text-slate-500 hover:text-indigo-900 transition-colors">
                         회원로그인
                     </Link>
                     <Link href="/onboarding">
-                        <Button className="rounded-none bg-indigo-900 hover:bg-indigo-800 text-white font-bold px-7 h-11 tracking-tight">
+                        <Button className="rounded-none bg-indigo-900 hover:bg-indigo-800 text-white font-bold px-4 sm:px-7 h-9 sm:h-11 text-[13px] sm:text-base tracking-tight">
                             무료 진단 시작
                         </Button>
                     </Link>
