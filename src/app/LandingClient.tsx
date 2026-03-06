@@ -129,10 +129,9 @@ const UserPathSelection = () => {
                                 7D 기업경영 심층자가진단 시작
                             </Button>
                         </Link>
-                        <p className="text-[13px] text-slate-400 mt-4 font-medium text-center leading-relaxed break-keep">
-                            70개의 문항이 많다고 느낄 수 있습니다. <br className="sm:hidden" />
-                            하지만 잠시의 집중과 진솔한 답변은 <br className="sm:hidden" />
-                            대표님의 현재를 정확하게 진단해 드립니다.
+                        <p className="text-[12px] text-slate-400 mt-4 font-medium text-left leading-relaxed break-keep">
+                            * 잠시의 집중과 진솔한 답변으로 <br className="sm:hidden" />
+                            기업의 현재를 정확하게 진단해 보세요.
                         </p>
                     </motion.div>
 
