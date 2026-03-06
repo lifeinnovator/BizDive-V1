@@ -44,7 +44,7 @@ const NavigationBar = () => {
 
 const Hero = () => {
     return (
-        <section className="relative pt-36 pb-24 px-6 md:px-12 bg-white flex flex-col items-center justify-center text-center min-h-[75vh] selection:bg-indigo-900 selection:text-white border-b border-indigo-50">
+        <section className="relative pt-24 pb-16 sm:pt-36 sm:pb-24 px-6 md:px-12 bg-white flex flex-col items-center justify-center text-center min-h-[70vh] sm:min-h-[75vh] selection:bg-indigo-900 selection:text-white border-b border-indigo-50">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -57,20 +57,24 @@ const Hero = () => {
                         BizDive - 7D 기업경영 심층자가진단
                     </span>
                 </div>
-                <h1 className="text-[32px] sm:text-[48px] lg:text-[76px] font-extrabold tracking-tighter text-indigo-950 leading-[1.1] mb-8 break-keep">
-                    직관을 넘어, <br />
+                <h1 className="text-[32px] sm:text-[48px] lg:text-[76px] font-extrabold tracking-tighter text-indigo-950 leading-[1.2] sm:leading-[1.1] mb-6 sm:mb-8 break-keep">
+                    직관을 넘어, <br className="sm:hidden" />
                     데이터로 증명하는 <br />
                     비즈니스 경쟁력.
                 </h1>
                 <p className="text-lg sm:text-xl text-slate-600 font-medium tracking-tight mb-4 max-w-3xl mx-auto leading-relaxed break-keep">
-                    본 기업현황 자가진단은 서비스 디자인 방법론(Double Diamond)과 PSST 사업계획 방법론, 전략컨설팅 프레임워크 방법론 등을 융합하여 설계된 고도화된 경영 진단 도구입니다.
+                    본 기업현황 자가진단은 서비스 디자인 방법론(Double Diamond)과 <br className="md:hidden" />
+                    PSST 사업계획 방법론, 전략컨설팅 프레임워크 방법론 등을 <br className="md:hidden" />
+                    융합하여 설계된 고도화된 경영 진단 도구입니다.
                     <br className="hidden lg:block" />
-                    시장 기회 탐색부터 사업성 검증까지 7가지 핵심 영역을 입체적으로 정밀 분석합니다.
+                    시장 기회 탐색부터 사업성 검증까지 <br className="md:hidden" />
+                    7가지 핵심 영역을 입체적으로 정밀 분석합니다.
                 </p>
-                <p className="text-base sm:text-lg text-slate-500 font-medium tracking-tight mb-14 max-w-2xl mx-auto leading-relaxed break-keep">
+                <p className="text-base sm:text-lg text-slate-500 font-medium tracking-tight mb-10 sm:mb-14 max-w-2xl mx-auto leading-relaxed break-keep">
                     이를 통해 기업은 현재의 성장 단계를 명확히 인지하고,
                     <br className="hidden lg:block" />
-                    다음 단계로 도약하기 위한 구체적인 실행 전략을 수립할 수 있습니다.
+                    다음 단계로 도약하기 위한 <br className="md:hidden" />
+                    구체적인 실행 전략을 수립할 수 있습니다.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link href="/onboarding" className="w-full sm:w-auto">
@@ -87,14 +91,15 @@ const Hero = () => {
 
 const UserPathSelection = () => {
     return (
-        <section className="py-24 bg-white px-6 md:px-12 border-b border-indigo-50">
+        <section className="py-16 sm:py-24 bg-white px-6 md:px-12 border-b border-indigo-50">
             <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-indigo-950 mb-4">
-                        역할에 맞는 맞춤 솔루션을 확인하세요.
+                <div className="text-center mb-10 sm:mb-16">
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-indigo-950 mb-4 break-keep">
+                        역할에 맞는 맞춤 솔루션을 <br className="sm:hidden" /> 확인하세요.
                     </h2>
-                    <p className="text-slate-500 font-medium text-lg">
-                        BizDive는 기업가와 지원 기관 모두에게 당면한 문제를 해결할 최적의 도구를 제공합니다.
+                    <p className="text-slate-500 font-medium text-lg break-keep">
+                        BizDive는 기업가와 지원 기관 모두에게 <br className="sm:hidden" />
+                        당면한 문제를 해결할 최적의 도구를 제공합니다.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -114,7 +119,9 @@ const UserPathSelection = () => {
                             <h3 className="text-2xl font-bold text-indigo-950 mb-4 tracking-tight">기업가 / 예비 창업자</h3>
                             <p className="text-slate-500 mb-8 font-medium leading-relaxed text-[15px] sm:text-base break-keep">
                                 "내 아이디어의 등급은?"<br />
-                                7단계 핵심 지표 정밀 분석과 맞춤형 액션 플랜 리포트를 통해 비즈니스의 현재를 확인하세요.
+                                7단계 핵심 지표 정밀 분석과 <br className="sm:hidden" />
+                                맞춤형 액션 플랜 리포트를 통해 <br className="sm:hidden" />
+                                비즈니스의 현재를 확인하세요.
                             </p>
                         </div>
                         <Link href="/onboarding" className="w-full">
@@ -140,7 +147,8 @@ const UserPathSelection = () => {
                             <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">지원사업 담당자 / 기관</h3>
                             <p className="text-slate-500 mb-8 font-medium leading-relaxed text-[15px] sm:text-base break-keep">
                                 "엑셀 없는 사업 관리를 원하시나요?"<br />
-                                차수별 기업 성장 데이터 자동 추적 및 미응답 기업 원클릭 독려 메일 시스템을 경험하세요.
+                                차수별 기업 성장 데이터 자동 추적 및 <br className="sm:hidden" />
+                                미응답 기업 원클릭 독려 메일 시스템을 경험하세요.
                             </p>
                         </div>
                         <Link href="/admin/demo" className="mt-auto">
@@ -160,19 +168,21 @@ const UserPathSelection = () => {
 
 const FounderExperience = () => {
     return (
-        <section className="py-32 bg-white px-6 md:px-12 border-b border-indigo-50">
+        <section className="py-20 sm:py-32 bg-white px-6 md:px-12 border-b border-indigo-50">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-24 md:w-2/3">
+                <div className="mb-12 sm:mb-24 md:w-2/3">
                     <div className="inline-flex items-center gap-3 mb-6">
                         <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-full text-[12px] font-bold tracking-[0.15em] uppercase">For Founders</span>
                         <span className="text-sm font-bold text-slate-500">지표 확인이 필요한 기업가 전용</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-indigo-950 mb-8 leading-tight">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-indigo-950 mb-6 sm:mb-8 leading-tight break-keep">
                         아이디어의 현주소, <br />
                         가장 빠르고 냉정하게.
                     </h2>
-                    <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-2xl">
-                        복잡한 텍스트 심사나 피칭 전에, BizDive의 입체적 진단 모델을 통해 시장에서의 실제 생존 가능성을 테스트하세요.
+                    <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-2xl break-keep">
+                        복잡한 텍스트 심사나 피칭 전에, <br className="sm:hidden" />
+                        BizDive의 입체적 진단 모델을 통해 <br className="sm:hidden" />
+                        시장에서의 실제 생존 가능성을 테스트하세요.
                     </p>
                 </div>
 
@@ -232,10 +242,13 @@ const InstitutionExperience = () => {
                     >
                         <div className="flex items-start gap-4 mb-4">
                             <span className="text-emerald-500 font-mono text-xl font-bold mt-1">01</span>
-                            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter leading-tight text-white">지원사업 효과의<br />정량적 지표화.</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter leading-tight text-white break-keep">지원사업 효과의<br />정량적 지표화.</h2>
                         </div>
-                        <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-md pl-9">
-                            지원사업 전후의 기업 경영 상황 변화를 객관적인 점수로 비교 분석합니다. 이를 통해 지원사업의 실제 성과를 정량적 지표로 명확하게 제시할 수 있습니다.
+                        <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-md pl-9 break-keep">
+                            지원사업 전후의 기업 경영 상황 변화를 <br className="sm:hidden" />
+                            객관적인 점수로 비교 분석합니다. <br className="sm:hidden" />
+                            이를 통해 지원사업의 실제 성과를 <br className="sm:hidden" />
+                            정량적 지표로 명확하게 제시할 수 있습니다.
                         </p>
                     </motion.div>
 
@@ -350,18 +363,20 @@ const InstitutionExperience = () => {
 
 const BannerSection = () => {
     return (
-        <section className="bg-white py-12 px-6 md:px-12 border-t border-slate-200">
+        <section className="bg-white py-8 sm:py-12 px-6 md:px-12 border-t border-slate-200">
             <div className="max-w-7xl mx-auto">
-                <div className="bg-[#1e1b4b] text-white rounded-none p-12 md:p-16 text-center shadow-2xl shadow-indigo-900/10">
+                <div className="bg-[#1e1b4b] text-white rounded-none p-10 sm:p-16 text-center shadow-2xl shadow-indigo-900/10">
                     <h2 className="text-2xl md:text-4xl font-extrabold mb-4 tracking-tighter break-keep text-white">
-                        우리 기업의 성장 통증, <br className="sm:hidden" /> 혼자 고민하지 마세요.
+                        우리 기업의 성장 통증, <br /> 혼자 고민하지 마세요.
                     </h2>
-                    <p className="text-indigo-200/90 mb-10 text-base md:text-lg font-medium opacity-80">
-                        진단 결과를 바탕으로 전문 컨설턴트가 1:1 맞춤 솔루션을 제안해 드립니다. <span className="font-bold text-emerald-400">(베타 기간 무료)</span>
+                    <p className="text-indigo-200/90 mb-8 sm:mb-10 text-base md:text-lg font-medium opacity-80 break-keep">
+                        진단 결과를 바탕으로 전문 컨설턴트가 <br className="sm:hidden" />
+                        1:1 맞춤 솔루션을 제안해 드립니다. <br className="sm:hidden" />
+                        <span className="font-bold text-emerald-400">(베타 기간 무료)</span>
                     </p>
                     <Button
                         onClick={() => window.open('https://forms.gle/rxVu3dFYjRPNSHaY6', '_blank')}
-                        className="font-bold text-indigo-900 bg-white hover:bg-slate-100 px-8 h-14 text-[16px] rounded-none shadow-sm"
+                        className="font-bold text-indigo-900 bg-white hover:bg-slate-100 px-8 h-14 text-[16px] rounded-none shadow-sm w-full sm:w-auto"
                     >
                         전문가 매칭 신청하기
                     </Button>
