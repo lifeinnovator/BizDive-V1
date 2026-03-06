@@ -400,18 +400,18 @@ const BannerSection = () => {
 const Footer = () => {
     return (
         <footer className="bg-white py-16 px-2 md:px-4 border-t border-slate-200">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                <div className="flex flex-col gap-1">
-                    <Link href="/" className="flex items-center gap-2">
-                        <img
-                            src="/BizDive_Logo_Confirm.png"
-                            alt="BizDive"
-                            className="h-9 sm:h-11 w-auto -ml-3"
-                        />
-                    </Link>
-                    <p className="text-[13px] text-slate-500 font-medium tracking-wide">© 2026 Cube Inspiration Group., Co., Ltd. All rights reserved.</p>
-                </div>
-                <div className="flex flex-wrap gap-6 text-[14px] font-bold text-slate-500">
+            <div className="flex flex-col items-start gap-1">
+                <Link href="/" className="mb-2">
+                    <img
+                        src="/BizDive_Logo_Confirm.png"
+                        alt="BizDive"
+                        className="h-9 sm:h-11 w-auto"
+                    />
+                </Link>
+                <p className="text-[12px] text-slate-500 font-medium tracking-wide whitespace-nowrap">
+                    © 2026 Cube Inspiration Group., Co., Ltd. All rights reserved.
+                </p>
+                <div className="flex gap-4 text-[13px] text-slate-400 mt-1 font-normal">
                     <Link href="/about" className="hover:text-indigo-900 transition-colors">서비스 정보</Link>
                     <Link href="/terms" className="hover:text-indigo-900 transition-colors">이용약관</Link>
                     <Link href="/privacy" className="hover:text-indigo-900 transition-colors">개인정보처리방침</Link>
