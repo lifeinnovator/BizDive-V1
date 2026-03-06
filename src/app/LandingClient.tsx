@@ -91,7 +91,7 @@ const Hero = () => {
 
 const UserPathSelection = () => {
     return (
-        <section className="py-16 sm:py-24 bg-white px-6 md:px-12 border-b border-indigo-50">
+        <section className="py-16 sm:py-24 px-6 md:px-12 bg-slate-50/50 flex flex-col items-center border-b border-indigo-50">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-10 sm:mb-16">
                     <h2 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-indigo-950 mb-4 break-keep">
@@ -129,6 +129,11 @@ const UserPathSelection = () => {
                                 7D 기업경영 심층자가진단 시작
                             </Button>
                         </Link>
+                        <p className="text-[13px] text-slate-400 mt-4 font-medium text-center leading-relaxed break-keep">
+                            70개의 문항이 많다고 느낄 수 있습니다. <br className="sm:hidden" />
+                            하지만 잠시의 집중과 진솔한 답변은 <br className="sm:hidden" />
+                            대표님의 현재를 정확하게 진단해 드립니다.
+                        </p>
                     </motion.div>
 
                     {/* Institution Path */}
