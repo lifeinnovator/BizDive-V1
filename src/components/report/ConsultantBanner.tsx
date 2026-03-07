@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function ConsultantBanner() {
     return (
@@ -11,14 +11,15 @@ export default function ConsultantBanner() {
             <p className="text-indigo-200/90 mb-6 text-sm md:text-base font-medium">
                 진단 결과를 바탕으로 전문 컨설턴트가 1:1 맞춤 솔루션을 제안해 드립니다. (베타 기간 무료)
             </p>
-            <Button
-                variant="secondary"
-                size="default"
-                className="font-bold text-indigo-900 bg-white hover:bg-indigo-50 px-6 h-10 text-sm shadow-sm"
-                onClick={() => window.open('https://forms.gle/rxVu3dFYjRPNSHaY6', '_blank')}
-            >
-                전문가 매칭 신청하기
-            </Button>
+            <Link href="/consultation/apply">
+                <Button
+                    variant="secondary"
+                    size="default"
+                    className="font-bold text-indigo-900 bg-white hover:bg-indigo-50 px-6 h-10 text-sm shadow-sm"
+                >
+                    전문가 매칭 신청하기
+                </Button>
+            </Link>
         </div>
     )
 }
