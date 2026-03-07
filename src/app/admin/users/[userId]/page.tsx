@@ -136,47 +136,53 @@ export default function UserDetailPage() {
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500 max-w-5xl mx-auto pb-10">
-            {/* Header */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-start gap-4">
-                    <Button variant="ghost" size="icon" onClick={() => router.push('/admin/users')} className="h-10 w-10 shrink-0 rounded-full text-slate-500 hover:bg-slate-100 mt-1 md:mt-0">
-                        <ArrowLeft size={20} />
+            {/* Header - Compact Version */}
+            <div className="dashboard-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                    <Button variant="ghost" size="icon" onClick={() => router.push('/admin/users')} className="h-8 w-8 shrink-0 rounded-md text-slate-400 hover:bg-slate-100 mt-1 md:mt-0">
+                        <ArrowLeft size={16} />
                     </Button>
                     <div>
-                        <div className="flex items-center gap-3">
-                            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-                                {userProfile.company_name || '회사명 미기재'}
+                        <div className="flex items-center gap-2">
+                            <h1 className="text-lg font-bold text-slate-900 tracking-tight">
+                                {userProfile.company_name || '이름 없음'}
                             </h1>
                             {latestRecord && (
-                                <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 hover:bg-indigo-50 font-bold border-indigo-200">
-                                    진단 완료
-                                </Badge>
+                                <div className="badge-compact bg-indigo-50 text-indigo-600">
+                                    제출 완료
+                                </div>
                             )}
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-3 text-sm text-slate-600 font-medium">
-                            <span className="flex items-center gap-1.5"><Mail size={14} className="text-slate-400" /> {userProfile.email}</span>
-                            <span className="flex items-center gap-1.5"><Briefcase size={14} className="text-slate-400" /> {userProfile.projects?.name || '소속 사업 없음'}</span>
-                            <span className="flex items-center gap-1.5"><Building2 size={14} className="text-slate-400" /> {userProfile.groups?.name || '소속 그룹 없음'}</span>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 font-bold">
+                            <span className="flex items-center gap-1.5 text-[10px] text-slate-400 uppercase"><Mail size={12} /> {userProfile.email}</span>
+                            <span className="flex items-center gap-1.5 text-[10px] text-indigo-500 uppercase"><Briefcase size={12} /> {userProfile.projects?.name || '참여 사업 정보 없음'}</span>
+                            <span className="flex items-center gap-1.5 text-[10px] text-slate-400 uppercase"><Building2 size={12} /> {userProfile.groups?.name || '일반 그룹'}</span>
                         </div>
                     </div>
                 </div>
                 {latestRecord && (
-                    <div className="md:text-right bg-slate-50 px-5 py-3 rounded-xl border border-slate-100 shrink-0">
-                        <p className="text-xs text-slate-500 font-medium mb-1 uppercase tracking-wider">종합 진단 점수</p>
-                        <div className="text-3xl font-black text-indigo-600">
-                            {latestRecord.total_score || 0}<span className="text-lg text-slate-400 font-bold ml-1">점</span>
+                    <div className="md:text-right bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 shrink-0">
+                        <p className="label-text mb-0.5">종합 점수</p>
+                        <div className="text-2xl font-black text-indigo-600">
+                            {latestRecord.total_score || 0}<span className="text-[14px] text-slate-400 font-bold ml-1">점</span>
                         </div>
                     </div>
                 )}
             </div>
 
             <Tabs defaultValue="diagnosis" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-6 shadow-sm border border-slate-200 h-12 bg-white rounded-xl overflow-hidden p-1">
-                    <TabsTrigger value="diagnosis" className="font-bold gap-2 rounded-lg data-[state=active]:bg-indigo-600 data-[state=active]:text-white h-full">
-                        <Target size={16} /> 진단 상세 결과
+                <TabsList className="bg-transparent border-b border-slate-100 w-full justify-start h-auto rounded-none p-0 mb-6 gap-6">
+                    <TabsTrigger 
+                        value="diagnosis" 
+                        className="font-bold gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-indigo-500 data-[state=active]:text-indigo-600 data-[state=active]:bg-transparent px-0 pb-3 text-[12px] uppercase tracking-wider"
+                    >
+                        <Target size={14} /> 진행 현황 & 진단 결과
                     </TabsTrigger>
-                    <TabsTrigger value="memos" className="font-bold gap-2 rounded-lg data-[state=active]:bg-indigo-600 data-[state=active]:text-white h-full">
-                        <FileText size={16} /> 멘토링 메모
+                    <TabsTrigger 
+                        value="memos" 
+                        className="font-bold gap-2 rounded-none border-b-2 border-transparent data-[state=active]:border-indigo-500 data-[state=active]:text-indigo-600 data-[state=active]:bg-transparent px-0 pb-3 text-[12px] uppercase tracking-wider"
+                    >
+                        <FileText size={14} /> 멘토링 메모 자료
                     </TabsTrigger>
                 </TabsList>
 
@@ -190,151 +196,141 @@ export default function UserDetailPage() {
                     ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {/* 1. Progress Bar UI for D1-D7 */}
-                            <Card className="border-slate-200 shadow-sm">
-                                <CardHeader className="border-b border-slate-100 pb-4 bg-slate-50/50">
-                                    <CardTitle className="text-base font-bold flex items-center gap-2">
-                                        <Target size={18} className="text-indigo-600" />
-                                        항목별 정밀 분석
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-5 space-y-5">
+                            <div className="dashboard-card overflow-hidden">
+                                <div className="border-b border-slate-50 bg-slate-50/20 p-4">
+                                    <h3 className="font-bold text-slate-900 text-[14px] flex items-center gap-2 tracking-tight">
+                                        <Target size={16} className="text-indigo-500" />
+                                        진단 영역별 점수
+                                    </h3>
+                                </div>
+                                <div className="p-5 space-y-4">
                                     {Object.keys(DIMENSION_LABELS).map(key => {
                                         const score = latestRecord?.dimension_scores?.[key] || 0
                                         const colorClass = getProgressBarColor(score)
                                         return (
-                                            <div key={key} className="space-y-2 group">
-                                                <div className="flex items-center justify-between text-sm">
-                                                    <span className="font-bold text-slate-700 flex items-center gap-2">
-                                                        {getStatusIcon(score)}
+                                            <div key={key} className="space-y-1.5 group">
+                                                <div className="flex items-center justify-between text-[11px]">
+                                                    <span className="font-bold text-slate-600 flex items-center gap-2 uppercase tracking-wide">
                                                         {DIMENSION_LABELS[key]}
                                                     </span>
-                                                    <span className="font-black text-slate-800">{score}<span className="text-slate-400 text-xs ml-0.5 font-semibold">점</span></span>
+                                                    <span className="font-black text-slate-900">{score}<span className="text-slate-400 text-[10px] ml-0.5 font-bold">점</span></span>
                                                 </div>
-                                                <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                                                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-50">
                                                     <div
-                                                        className={`h-full rounded-full transition-all duration-1000 ease-out ${colorClass}`}
+                                                        className={`h-full rounded-full transition-all duration-1000 ease-out ${colorClass} shadow-sm shadow-current/10`}
                                                         style={{ width: `${score}%` }}
                                                     />
                                                 </div>
                                             </div>
                                         )
                                     })}
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </div>
 
                             {/* 2. 3-Section Layout */}
-                            <Card className="border-slate-200 shadow-sm">
-                                <CardHeader className="border-b border-slate-100 pb-4 bg-slate-50/50">
-                                    <CardTitle className="text-base font-bold flex items-center gap-2">
-                                        <FileText size={18} className="text-indigo-600" />
-                                        종합 진단 코멘트
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-0">
-                                    <div className="divide-y divide-slate-100">
-                                        {/* Section A: 현황 진단 */}
-                                        <div className="p-5 space-y-3">
-                                            <h4 className="flex items-center gap-2 text-sm font-bold text-slate-800">
-                                                <span className="w-1.5 h-4 bg-indigo-500 rounded-full"></span>
-                                                현황 진단
-                                            </h4>
-                                            <p className="text-sm text-slate-600 leading-relaxed bg-slate-50 rounded-lg p-4 font-medium">
-                                                현재 {userProfile.company_name}의 비즈니스 모델은 시장 검증 단계에 진입하였으나, 조직 및 인사 관리에 있어 정교한 체계가 부족한 상태입니다. 기술 R&D 역량은 우수하여 단기 성과를 창출할 잠재력이 높습니다.
-                                            </p>
-                                        </div>
-                                        {/* Section B: 전문가 제언 */}
-                                        <div className="p-5 space-y-3">
-                                            <h4 className="flex items-center gap-2 text-sm font-bold text-slate-800">
-                                                <span className="w-1.5 h-4 bg-emerald-500 rounded-full"></span>
-                                                전문가 제언
-                                            </h4>
-                                            <p className="text-sm text-slate-600 leading-relaxed bg-emerald-50/50 rounded-lg p-4 font-medium border border-emerald-100/50">
-                                                초기 핵심 멤버들의 이탈을 방지하기 위한 성과 보상 체계(스톡옵션 등)를 우선적으로 구체화할 것을 권장합니다. 아울러 부족한 ESG 지표 개선을 위해 지역 사회 기여 활동이나 사내 친환경 정책 도입을 검토해 보시기 바랍니다.
-                                            </p>
-                                        </div>
-                                        {/* Section C: 용어 설명 */}
-                                        <div className="p-5 space-y-3">
-                                            <h4 className="flex items-center gap-2 text-sm font-bold text-slate-800">
-                                                <span className="w-1.5 h-4 bg-slate-300 rounded-full"></span>
-                                                용어 설명 (*)
-                                            </h4>
-                                            <ul className="text-xs text-slate-500 space-y-2 bg-slate-50 rounded-lg p-4">
-                                                <li className="flex items-start gap-2">
-                                                    <Info size={14} className="mt-0.5 shrink-0 text-slate-400" />
-                                                    <span><strong className="text-slate-700">스톡옵션(Stock Option):</strong> 임직원에게 일정 수량의 회사 주식을 일정한 가격으로 매수할 수 있는 권리를 부여하는 제도.</span>
-                                                </li>
-                                                <li className="flex items-start gap-2">
-                                                    <Info size={14} className="mt-0.5 shrink-0 text-slate-400" />
-                                                    <span><strong className="text-slate-700">ESG 경영:</strong> 환경보호(Environment), 사회공헌(Social), 윤리경영(Governance)을 고려하는 기업 성과 지표.</span>
-                                                </li>
-                                            </ul>
-                                        </div>
+                            <div className="dashboard-card overflow-hidden">
+                                <div className="border-b border-slate-50 bg-slate-50/20 p-4">
+                                    <h3 className="font-bold text-slate-900 text-[14px] flex items-center gap-2 tracking-tight">
+                                        <FileText size={16} className="text-indigo-500" />
+                                        전략적 분석 및 제언
+                                    </h3>
+                                </div>
+                                <div className="divide-y divide-slate-50">
+                                    {/* Section A: 현황 진단 */}
+                                    <div className="p-4 space-y-2">
+                                        <h4 className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            진단 결과 분석
+                                        </h4>
+                                        <p className="text-[12px] text-slate-600 leading-relaxed bg-slate-50/50 rounded-md p-3 font-medium border border-slate-100/50">
+                                            현재 {userProfile.company_name}의 비즈니스 모델은 시장 검증 단계에 진입하고 있으나, 정교한 조직 체계가 다소 부족한 상태입니다. 기술 R&D 역량이 우수하여 단기적인 성장 가능성이 매우 높게 평가됩니다.
+                                        </p>
                                     </div>
-                                </CardContent>
-                            </Card>
+                                    {/* Section B: 전문가 제언 */}
+                                    <div className="p-4 space-y-2">
+                                        <h4 className="flex items-center gap-2 text-[10px] font-bold text-indigo-500 uppercase tracking-widest">
+                                            전문가 제언 및 핵심 해결 과제
+                                        </h4>
+                                        <p className="text-[12px] text-indigo-700 leading-relaxed bg-indigo-50/30 rounded-md p-3 font-medium border border-indigo-100/30">
+                                            핵심 인력 유지를 위한 보상 체계(스톡옵션 등)의 공식화를 우선적으로 추진할 것을 권장합니다. 또한, 기관의 지속가능성 점수를 높이기 위해 내부 ESG 정책 수립을 고려해야 합니다.
+                                        </p>
+                                    </div>
+                                    {/* Section C: 고유 용어 및 키워드 */}
+                                    <div className="p-4 space-y-2">
+                                        <h4 className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            주요 키워드 / 용어 설명 (*)
+                                        </h4>
+                                        <ul className="text-[11px] text-slate-500 space-y-1 bg-slate-50/30 rounded-md p-3">
+                                            <li className="flex items-start gap-2">
+                                                <Info size={12} className="mt-0.5 shrink-0 text-slate-300" />
+                                                <span><strong className="text-slate-700">스톡옵션:</strong> 핵심 인재를 확보하고 유지하기 위해 부여하는 주식 매수 선택권입니다.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </TabsContent>
 
                 <TabsContent value="memos" className="mt-0 outline-none">
-                    <Card className="border-slate-200 shadow-sm">
-                        <CardHeader className="border-b border-slate-100 pb-4 bg-slate-50/50 flex flex-row items-center justify-between">
-                            <CardTitle className="text-base font-bold flex items-center gap-2">
-                                <Edit size={18} className="text-indigo-600" />
-                                전담 전문가 멘토링 메모
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-6">
+                    <div className="dashboard-card overflow-hidden">
+                        <div className="border-b border-slate-50 bg-slate-50/20 p-4">
+                            <h3 className="font-bold text-slate-900 text-[14px] flex items-center gap-2 tracking-tight">
+                                <Edit size={16} className="text-indigo-500" />
+                                멘토링 기록 및 메모 자료
+                            </h3>
+                        </div>
+                        <div className="p-5">
                             {/* Write New Memo */}
-                            <div className="mb-8">
-                                <div className="border border-indigo-100 bg-indigo-50/30 rounded-xl p-1 focus-within:ring-2 focus-within:ring-indigo-500/50 transition-all">
+                            <div className="mb-6">
+                                <div className="border border-slate-200 bg-slate-50/30 rounded-lg p-1 focus-within:ring-2 focus-within:ring-indigo-500/10 focus-within:border-indigo-500 transition-all">
                                     <textarea
                                         rows={3}
-                                        placeholder="기업에 대한 정성적 평가나 멘토링 기록을 남겨주세요."
-                                        className="w-full bg-transparent border-none outline-none resize-none p-4 text-sm font-medium text-slate-800 placeholder:text-slate-400"
+                                        placeholder="기업 상담 내용이나 정성적 평가를 입력하세요..."
+                                        className="w-full bg-transparent border-none outline-none resize-none p-3 text-[12px] font-medium text-slate-700 placeholder:text-slate-400"
                                         value={newMemo}
                                         onChange={(e) => setNewMemo(e.target.value)}
                                     />
-                                    <div className="flex justify-end p-2 border-t border-indigo-100/50 bg-white rounded-b-lg">
-                                        <Button onClick={handleAddMemo} className="bg-indigo-600 hover:bg-indigo-700 font-bold gap-2 shadow-sm rounded-lg" size="sm">
-                                            <Plus size={16} /> 메모 등록
+                                    <div className="flex justify-end p-2 bg-white rounded-md border-t border-slate-100">
+                                        <Button onClick={handleAddMemo} className="h-7 px-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] gap-2 shadow-sm rounded-md transition-all">
+                                            <Plus size={14} /> 메모 저장
                                         </Button>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Memo List */}
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 {memos.length === 0 ? (
-                                    <p className="text-center text-slate-400 text-sm py-10 font-medium">등록된 멘토링 메모가 없습니다.</p>
+                                    <p className="text-center text-slate-300 text-[11px] py-10 font-bold uppercase tracking-wider">등록된 멘토링 메모가 없습니다.</p>
                                 ) : (
                                     memos.map(memo => (
-                                        <div key={memo.id} className="group relative bg-white p-5 border border-slate-200 rounded-xl shadow-sm hover:border-indigo-200 hover:shadow-md transition-all">
-                                            <div className="flex justify-between items-start mb-3">
+                                        <div key={memo.id} className="group relative bg-white p-4 border border-slate-100 rounded-lg shadow-sm hover:border-indigo-200 transition-all">
+                                            <div className="flex justify-between items-start mb-2">
                                                 <div className="flex items-center gap-2">
-                                                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
-                                                        {memo.author?.user_name?.charAt(0) || '운'}
+                                                    <div className="w-7 h-7 rounded-md bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">
+                                                        {memo.author?.user_name?.charAt(0) || 'A'}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-slate-800">{memo.author?.user_name || '운영자'}</p>
-                                                        <p className="text-xs text-slate-400 font-medium">{new Date(memo.created_at).toLocaleString()}</p>
+                                                        <p className="text-[11px] font-bold text-slate-900 leading-none">{memo.author?.user_name || 'Admin'}</p>
+                                                        <p className="text-[9px] text-slate-400 font-bold mt-1 uppercase">{new Date(memo.created_at).toLocaleDateString()}</p>
                                                     </div>
                                                 </div>
                                                 {(currentUser?.id === memo.author_id || currentUser?.role === 'super_admin') && (
-                                                    <Button variant="ghost" size="icon" onClick={() => handleDeleteMemo(memo.id)} className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg">
-                                                        <Trash2 size={16} />
+                                                    <Button variant="ghost" size="icon" onClick={() => handleDeleteMemo(memo.id)} className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-md">
+                                                        <Trash2 size={13} />
                                                     </Button>
                                                 )}
                                             </div>
-                                            <p className="text-sm text-slate-700 font-medium whitespace-pre-wrap leading-relaxed px-1">
+                                            <p className="text-[12px] text-slate-600 font-medium whitespace-pre-wrap leading-relaxed">
                                                 {memo.content}
                                             </p>
                                         </div>
                                     ))
                                 )}
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 </TabsContent>
             </Tabs>
         </div>

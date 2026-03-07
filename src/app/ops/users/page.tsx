@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import {
     Search,
     Filter,
@@ -12,253 +13,218 @@ import {
     Mail,
     Calendar,
     ChevronRight,
-    ExternalLink
+    ExternalLink,
+    Copy,
+    Plus,
+    Users
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import ScoreIndicator from '@/components/admin/ScoreIndicator'
-
-const mockUsers = [
-    { id: 'u1', name: '김민수 대표', email: 'kms@startup.com', company: '에이비씨 테크', group: '서울창업허브 2024', role: 'user', lastDiagnosis: '2024.02.23', lastScore: 82.4, status: 'Active' },
-    { id: 'u2', name: '이영희 팀장', email: 'yh.lee@corp.io', company: '디브릿지 소프트', group: '글로벌 SaaS 8기', role: 'user', lastDiagnosis: '2024.02.20', lastScore: 45.2, status: 'Active' },
-    { id: 'u3', name: '박준영 소장', email: 'jyp@lab.net', company: '미래 로보틱스', group: '서울창업허브 2024', role: 'user', lastDiagnosis: '2024.02.18', lastScore: 68.7, status: 'Inactive' },
-    { id: 'u4', name: '최다은 본부장', email: 'de.choi@biz.com', company: '그린 에너지 솔루션', group: 'K-Startup 지원단', role: 'user', lastDiagnosis: '2024.02.15', lastScore: 91.0, status: 'Active' },
-    { id: 'u5', name: '정우성 팀장', email: 'ws.jung@local.org', company: '로컬 커넥트', group: '경기센터 예비창업', role: 'user', lastDiagnosis: '2024.02.10', lastScore: 54.5, status: 'Active' },
-]
-
 import { createClient } from '@/lib/supabase'
+import { toast } from 'sonner'
 
 export default function UsersPage() {
     const [searchTerm, setSearchTerm] = useState('')
     const [users, setUsers] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [userProfile, setUserProfile] = useState<any>(null)
-    const [groups, setGroups] = useState<any[]>([])
+    const [stats, setStats] = useState({ profiles: 0, guests: 0 })
 
     React.useEffect(() => {
         const fetchData = async () => {
             const supabase = createClient()
-
-            // 1. Get current user profile
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
 
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', user.id)
-                .single()
-
+            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
             setUserProfile(profile)
 
-            // 2. Fetch Groups (for select filter)
-            let groupsQ = supabase.from('groups').select('*')
-            if (profile?.role === 'group_admin') {
-                groupsQ = groupsQ.eq('id', profile.group_id)
-            }
-            const { data: groupsData } = await groupsQ
-            setGroups(groupsData || [])
+            // 1. Fetch Registered Users
+            const { data: profilesData, error: pError } = await supabase
+                .from('profiles')
+                .select('*, groups(name)')
+                .order('created_at', { ascending: false })
 
-            // 3. Fetch Registered Users with RBAC
-            let usersQ = supabase.from('profiles').select('*, groups(name)')
+            if (pError) console.error("Profiles fetch error:", pError)
 
-            if (profile?.role === 'group_admin' && profile.group_id) {
-                usersQ = usersQ.eq('group_id', profile.group_id)
-            }
-
-            const { data: profilesData } = await usersQ.order('created_at', { ascending: false })
-
-            // 4. Fetch Unregistered Diagnosis Users
-            let guestQ = supabase.from('diagnosis_records')
-                .select('id, guest_name, guest_email, guest_company, guest_stage, guest_industry, created_at, project_id, projects(name)')
+            // 2. Fetch Guest Records (Unregistered)
+            const { data: guestsData, error: gError } = await supabase
+                .from('diagnosis_records')
+                .select('id, guest_name, guest_email, guest_company, created_at, projects(name)')
                 .is('user_id', null)
                 .not('guest_email', 'is', null)
+                .order('created_at', { ascending: false })
 
-            // Note: If RBAC is needed for guests, we'd filter by project_id -> group_id. 
-            // Since this is ops page (SuperAdmin), usually all are fetched. But just in case:
-            if (profile?.role === 'group_admin' && profile.group_id) {
-                // If group_admin can see guests, we need to filter guests by their group's projects
-                // Assuming ops page is ONLY for super_admin, we don't strictly need this, but good practice.
-                const { data: groupProjects } = await supabase.from('projects').select('id').eq('group_id', profile.group_id)
-                const projectIds = groupProjects?.map(p => p.id) || []
-                if (projectIds.length > 0) {
-                    guestQ = guestQ.in('project_id', projectIds)
-                } else {
-                    guestQ = guestQ.eq('project_id', 'none') // Ensure no guests if no projects
-                }
-            }
+            if (gError) console.error("Guests fetch error:", gError)
 
-            const { data: guestsData } = await guestQ.order('created_at', { ascending: false })
-
-            // Format guest records to match profile shape for the table
             const formattedGuests = (guestsData || []).map(g => ({
-                id: g.id, // Using record id as unique key
-                user_name: g.guest_name || '이름 없음',
-                email: g.guest_email || '이메일 없음',
-                company_name: g.guest_company || '회사 정보 없음',
-                stage: g.guest_stage,
-                industry: g.guest_industry,
+                id: g.id,
+                user_name: g.guest_name || g.guest_email || '진단 사용자',
+                email: g.guest_email || '-',
+                company_name: g.guest_company || '-',
                 role: 'guest',
-                groups: { name: (g.projects as any)?.name ? `지원사업: ${(g.projects as any).name}` : '비회원 진단(소속없음)' },
+                groups: { name: (g.projects as any)?.name ? (g.projects as any).name : '개별 진단' },
                 created_at: g.created_at,
                 is_guest: true
             }))
 
-            // Combine and sort by created_at desc
             const allUsers = [...(profilesData || []), ...formattedGuests].sort((a, b) => 
                 new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
             )
 
             setUsers(allUsers)
+            setStats({ 
+                profiles: profilesData?.length || 0, 
+                guests: formattedGuests.length || 0 
+            })
             setLoading(false)
         }
         fetchData()
     }, [])
 
-    const handleRoleChange = async (targetUserId: string, newRole: string) => {
-        const supabase = createClient()
-        const { error } = await supabase
-            .from('profiles')
-            .update({ role: newRole })
-            .eq('id', targetUserId)
-
-        if (error) {
-            alert('권한 변경에 실패했습니다: ' + error.message)
-        } else {
-            setUsers(users.map(u => u.id === targetUserId ? { ...u, role: newRole } : u))
-        }
+    const handleCopy = (text: string) => {
+        navigator.clipboard.writeText(text)
+        toast.success('ID가 클립보드에 복사되었습니다.')
     }
 
     const filteredUsers = users.filter(user =>
-    (user.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.company_name?.toLowerCase().includes(searchTerm.toLowerCase()))
+        user.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.id?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
-            {/* Header Section */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
+        <div className="space-y-6 animate-in fade-in duration-500">
+            {/* Supabase-style Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+                <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-slate-400 mb-1">
+                        <Users size={14} />
+                        <span className="text-[11px] font-bold uppercase tracking-wider">Authentication</span>
+                    </div>
                     <h1 className="text-2xl font-bold text-slate-900 tracking-tight">사용자 관리</h1>
-                    <p className="text-slate-500 mt-1 font-medium text-sm">전체 가입 유저와 진단 현황을 통합 관리합니다.</p>
+                    <p className="text-sm text-slate-500 font-medium pt-1">
+                        플랫폼 전체 가입자 <span className="text-indigo-600 font-bold">{stats.profiles}명</span> 및 
+                        진단 게스트 <span className="text-indigo-600 font-bold">{stats.guests}명</span>을 관리합니다.
+                    </p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <Button variant="outline" className="gap-2 text-slate-600 border-slate-200 bg-white hover:bg-slate-50 rounded-xl h-11">
-                        <Download size={18} />
-                        전체 유저 내보내기
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" className="h-9 px-4 text-slate-600 border-slate-200 bg-white hover:bg-slate-50 text-[12px] font-semibold gap-2">
+                        <Download size={14} />
+                        전체 내보내기
+                    </Button>
+                    <Button className="h-9 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-[12px] font-semibold gap-2 shadow-sm">
+                        <Plus size={14} />
+                        사용자 추가
                     </Button>
                 </div>
             </div>
 
-            {/* Filter & Search Bar */}
-            <Card className="border-none shadow-sm bg-white overflow-hidden">
-                <CardContent className="p-4 flex flex-col lg:flex-row gap-4">
-                    <div className="flex-grow flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-100 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all">
-                        <Search size={18} className="text-slate-400" />
-                        <input
-                            type="text"
-                            placeholder="이름, 이메일, 회사명으로 검색..."
-                            className="bg-transparent border-none outline-none text-sm w-full placeholder:text-slate-400 font-medium"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex gap-3">
-                        <select className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                            <option value="">모든 그룹보기</option>
-                            {groups.map(g => (
-                                <option key={g.id} value={g.id}>{g.name}</option>
-                            ))}
-                        </select>
-                        <Button variant="outline" className="gap-2 font-bold text-slate-500 border-slate-200 h-11 rounded-xl">
-                            <Filter size={16} />
-                            상세 필터
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
+            {/* Filter Hub */}
+            <div className="flex flex-col lg:flex-row gap-3">
+                <div className="flex-grow flex items-center gap-3 bg-white px-3 py-2 rounded-lg border border-slate-200 focus-within:ring-2 focus-within:ring-indigo-500/10 focus-within:border-indigo-500 transition-all">
+                    <Search size={16} className="text-slate-400" />
+                    <input
+                        type="text"
+                        placeholder="ID, 이메일, 이름으로 검색..."
+                        className="bg-transparent border-none outline-none text-[13px] w-full placeholder:text-slate-400 font-medium"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div className="flex gap-2">
+                    <Button variant="outline" className="h-[38px] px-4 text-slate-500 border-slate-200 text-[12px] font-semibold gap-2">
+                        <Filter size={14} />
+                        필터
+                    </Button>
+                    <div className="h-[38px] w-px bg-slate-200 mx-1"></div>
+                    <p className="flex items-center text-[12px] text-slate-400 font-medium px-2">
+                        전체 {filteredUsers.length}개 결과
+                    </p>
+                </div>
+            </div>
 
-            {/* Users Table */}
-            <Card className="border-none shadow-sm bg-white overflow-hidden">
+            {/* Supabase-style Table Editor Layout */}
+            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-left border-collapse min-w-[1000px]">
                         <thead>
-                            <tr className="bg-slate-50/50 border-b border-slate-100">
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">사용자 정보</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">소속 정보</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">권한 설정</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">상태</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">관리</th>
+                            <tr className="bg-slate-50/50 border-b border-slate-200">
+                                <th className="px-4 py-3 text-[11px] font-bold text-slate-500 border-r border-slate-200/60 w-32">UID</th>
+                                <th className="px-4 py-3 text-[11px] font-bold text-slate-500 border-r border-slate-200/60">표시 이름 / 이메일</th>
+                                <th className="px-4 py-3 text-[11px] font-bold text-slate-500 border-r border-slate-200/60 w-32">권한</th>
+                                <th className="px-4 py-3 text-[11px] font-bold text-slate-500 border-r border-slate-200/60 w-48">소속 기업/그룹</th>
+                                <th className="px-4 py-3 text-[11px] font-bold text-slate-500 border-r border-slate-200/60 w-32">가입일</th>
+                                <th className="px-4 py-3 text-[11px] font-bold text-slate-500 w-20 text-center">동작</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-50">
+                        <tbody className="divide-y divide-slate-100">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-10 text-center text-slate-400 italic">데이터를 불러오는 중...</td>
+                                    <td colSpan={6} className="px-6 py-12 text-center text-slate-400 italic text-sm">데이터를 불러오는 중...</td>
                                 </tr>
                             ) : filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-10 text-center text-slate-400 italic">검색 결과가 없습니다.</td>
+                                    <td colSpan={6} className="px-6 py-12 text-center text-slate-400 italic text-sm">일치하는 사용자가 없습니다.</td>
                                 </tr>
                             ) : filteredUsers.map((user) => (
-                                <tr key={user.id} className="hover:bg-slate-50/50 transition-colors group">
-                                    <td className="px-6 py-5">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold border border-indigo-100">
-                                                {user.user_name?.[0] || user.email[0]}
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-bold text-slate-800">{user.user_name || '이름 없음'}</p>
-                                                <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                                                    <Mail size={10} />
-                                                    {user.email}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-5">
-                                        <div className="space-y-1">
-                                            <p className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                                                <Building2 size={14} className="text-slate-400" />
-                                                {user.company_name || '회사 정보 없음'}
-                                            </p>
-                                            <p className="text-[11px] text-indigo-500 font-bold bg-indigo-50 px-2 py-0.5 rounded-full inline-block">
-                                                {user.groups?.name || '소속 없음'}
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-5">
-                                        {user.is_guest ? (
-                                            <Badge variant="outline" className="bg-slate-100 text-slate-500 border-none font-bold">
-                                                진단사용자 (미가입)
-                                            </Badge>
-                                        ) : (
-                                            <select
-                                                disabled={userProfile?.role !== 'super_admin'}
-                                                className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:opacity-50"
-                                                value={user.role || 'user'}
-                                                onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                <tr key={user.id} className="hover:bg-slate-50/30 transition-colors group">
+                                    <td className="px-4 py-3 border-r border-slate-100/60">
+                                        <div className="flex items-center justify-between gap-2 overflow-hidden">
+                                            <span className="font-mono text-[10px] text-slate-400 truncate">{user.id?.slice(0, 12)}...</span>
+                                            <button 
+                                                onClick={() => handleCopy(user.id)}
+                                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-100 rounded text-slate-400 transition-all"
                                             >
-                                                <option value="user">일반 사용자</option>
-                                                <option value="group_admin">기관 운영자</option>
-                                                <option value="super_admin">최고 운영자</option>
-                                            </select>
-                                        )}
+                                                <Copy size={12} />
+                                            </button>
+                                        </div>
                                     </td>
-                                    <td className="px-6 py-5">
-                                        <Badge variant="outline" className={`font-bold ${user.is_guest ? 'bg-amber-50 text-amber-600 border-amber-100' : 'bg-emerald-50 text-emerald-600 border-emerald-100'}`}>
-                                            {user.is_guest ? 'Guest' : 'Active'}
-                                        </Badge>
+                                    <td className="px-4 py-3 border-r border-slate-100/60">
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold ${
+                                                user.is_guest ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'
+                                            }`}>
+                                                {user.user_name?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || '?'}
+                                            </div>
+                                            <div className="overflow-hidden">
+                                                <p className="text-[12px] font-semibold text-slate-900 truncate">{user.user_name || '이름 없음'}</p>
+                                                <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td className="px-6 py-5 text-right">
-                                        <div className="flex items-center justify-end gap-2">
-                                            <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-indigo-600 hover:bg-white hover:shadow-sm rounded-xl transition-all">
-                                                <ExternalLink size={16} />
-                                            </Button>
-                                            <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-slate-600 hover:bg-white hover:shadow-sm rounded-xl transition-all">
-                                                <MoreHorizontal size={16} />
+                                    <td className="px-4 py-3 border-r border-slate-100/60">
+                                        <div className="flex items-center gap-2">
+                                            <div className={`w-1.5 h-1.5 rounded-full ${user.role === 'super_admin' ? 'bg-emerald-500' : user.role === 'group_admin' ? 'bg-indigo-500' : 'bg-slate-300'}`}></div>
+                                            <span className="text-[11px] font-medium text-slate-700">
+                                                {user.role === 'super_admin' ? '최고 관리자' : user.role === 'group_admin' ? '기관 관리자' : user.is_guest ? '게스트' : '일반 사용자'}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3 border-r border-slate-100/60">
+                                        <div className="space-y-0.5">
+                                            <p className="text-[12px] font-medium text-slate-700 truncate">{user.company_name || '-'}</p>
+                                            <p className="text-[10px] text-indigo-600 font-bold truncate">{user.groups?.name || '-'}</p>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3 border-r border-slate-100/60 text-slate-500 text-[12px]">
+                                        {user.created_at ? new Date(user.created_at).toLocaleDateString('ko-KR', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit'
+                                        }).replace(/\. /g, '.').replace(/\.$/, '') : '-'}
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                        <div className="flex items-center justify-center gap-1">
+                                            <Link href={`/ops/users/${user.id}`}>
+                                                <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:bg-slate-100 rounded">
+                                                    <ExternalLink size={14} />
+                                                </Button>
+                                            </Link>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:bg-slate-100 rounded">
+                                                <MoreHorizontal size={14} />
                                             </Button>
                                         </div>
                                     </td>
@@ -267,16 +233,32 @@ export default function UsersPage() {
                         </tbody>
                     </table>
                 </div>
-                {!loading && (
-                    <div className="p-4 border-t border-slate-50 flex items-center justify-between">
-                        <p className="text-xs text-slate-400 font-medium">전체 {filteredUsers.length}명 검색됨</p>
-                        <div className="flex gap-2">
-                            <Button variant="outline" size="sm" disabled className="h-8 rounded-lg text-xs font-bold">이전</Button>
-                            <Button variant="outline" size="sm" disabled className="h-8 rounded-lg text-xs font-bold">다음</Button>
-                        </div>
+                
+                {/* Pagination Placeholder */}
+                <div className="bg-slate-50/50 border-t border-slate-200 px-4 py-3 flex items-center justify-between">
+                    <span className="text-[11px] text-slate-400 font-medium">1-{filteredUsers.length} of {filteredUsers.length} items</span>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="sm" disabled className="h-7 px-3 text-[11px] font-medium">Previous</Button>
+                        <Button variant="outline" size="sm" disabled className="h-7 px-3 text-[11px] font-medium">Next</Button>
                     </div>
-                )}
-            </Card>
+                </div>
+            </div>
+
+            {/* Sync Alert (Only for Super Admin) */}
+            {userProfile?.role === 'super_admin' && (
+                <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-lg flex gap-4">
+                    <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+                        <Users size={16} />
+                    </div>
+                    <div>
+                        <h4 className="text-sm font-bold text-indigo-900">도움이 필요하신가요?</h4>
+                        <p className="text-xs text-indigo-700 mt-1 leading-relaxed">
+                            Supabase Auth 목록과 어드민 목록이 일치하지 않는 경우, 프로필 동기화가 필요할 수 있습니다. 
+                            `supabase/debug_rls.sql` 파일에 제공된 [5번] 스크립트를 Supabase 대시보드에서 한 번 실행해 주세요.
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

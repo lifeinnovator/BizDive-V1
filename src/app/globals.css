@@ -166,6 +166,39 @@
   .shadow-elevated {
     box-shadow: var(--shadow-elevated);
   }
+
+  /* Compact Dashboard Design Tokens */
+  .dashboard-card {
+    @apply bg-white border border-slate-100/60 shadow-sm rounded-xl overflow-hidden transition-all duration-300;
+  }
+  
+  .dashboard-card-hover {
+    @apply hover:shadow-md hover:border-indigo-100;
+  }
+
+  .label-text {
+    @apply text-[10px] font-bold uppercase tracking-wider text-slate-400;
+  }
+
+  .data-text {
+    @apply text-xl font-bold text-slate-900 tracking-tight;
+  }
+
+  .meta-text {
+    @apply text-[11px] font-medium text-slate-500;
+  }
+
+  .badge-compact {
+    @apply px-1.5 py-0 text-[10px] font-bold rounded-md;
+  }
+
+  .compact-table th {
+    @apply px-4 py-2.5 bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100;
+  }
+
+  .compact-table td {
+    @apply px-4 py-2 text-[12px] border-b border-slate-50;
+  }
 }
 
 /* Custom animations */

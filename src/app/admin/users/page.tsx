@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import {
     Search,
     Filter,
@@ -96,121 +97,122 @@ export default function UsersPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
-            {/* Header Section */}
+            {/* Header Section - Compact Version */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">사용자 관리</h1>
-                    <p className="text-slate-500 mt-1 font-medium text-sm">전체 가입 유저와 진단 현황을 통합 관리합니다.</p>
+                    <h1 className="text-xl font-bold text-slate-900 tracking-tight">사용자 관리</h1>
+                    <p className="text-slate-400 mt-1 font-medium text-[11px]">참여 기업 계정과 운영사 관리자 계정을 관리합니다.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Button variant="outline" className="gap-2 text-slate-600 border-slate-200 bg-white hover:bg-slate-50 rounded-xl h-11">
-                        <Download size={18} />
-                        전체 유저 내보내기
+                    <Button variant="outline" className="h-9 px-4 text-slate-600 border-slate-200 bg-white hover:bg-slate-50 rounded-lg text-[11px] font-bold shadow-sm flex gap-2 transition-all">
+                        <Download size={14} />
+                        전체 내보내기
                     </Button>
                 </div>
             </div>
 
-            {/* Filter & Search Bar */}
-            <Card className="border-none shadow-sm bg-white overflow-hidden">
-                <CardContent className="p-4 flex flex-col lg:flex-row gap-4">
-                    <div className="flex-grow flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-100 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500 transition-all">
-                        <Search size={18} className="text-slate-400" />
-                        <input
-                            type="text"
-                            placeholder="이름, 이메일, 회사명으로 검색..."
-                            className="bg-transparent border-none outline-none text-sm w-full placeholder:text-slate-400 font-medium"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex gap-3">
-                        <select className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                            <option value="">모든 그룹보기</option>
-                            {groups.map(g => (
-                                <option key={g.id} value={g.id}>{g.name}</option>
-                            ))}
-                        </select>
-                        <Button variant="outline" className="gap-2 font-bold text-slate-500 border-slate-200 h-11 rounded-xl">
-                            <Filter size={16} />
-                            상세 필터
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
+            {/* Filter & Search Bar - Compact Version */}
+            <div className="dashboard-card p-3 flex flex-col lg:flex-row gap-3">
+                <div className="flex-grow flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 focus-within:ring-2 focus-within:ring-indigo-500/10 focus-within:border-indigo-500/50 transition-all">
+                    <Search size={14} className="text-slate-400" />
+                    <input
+                        type="text"
+                        placeholder="이름, 이메일 또는 기업명으로 검색..."
+                        className="bg-transparent border-none outline-none text-[12px] w-full placeholder:text-slate-400 font-medium"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div className="flex gap-2">
+                    <select className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/10">
+                        <option value="">그룹 필터: 전체</option>
+                        {groups.map(g => (
+                            <option key={g.id} value={g.id}>{g.name}</option>
+                        ))}
+                    </select>
+                    <Button variant="ghost" className="h-8 gap-2 text-[11px] font-bold text-slate-500 border border-slate-200 rounded-lg hover:bg-slate-50">
+                        <Filter size={14} />
+                        필터
+                    </Button>
+                </div>
+            </div>
 
-            {/* Users Table */}
-            <Card className="border-none shadow-sm bg-white overflow-hidden">
+            {/* Users Table - Compact Version */}
+            <div className="dashboard-card overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-slate-50/50 border-b border-slate-100">
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">사용자 정보</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">소속 정보</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">권한 설정</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">상태</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">관리</th>
+                            <tr className="border-b border-slate-50 bg-slate-50/30">
+                                <th className="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">사용자 정보</th>
+                                <th className="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">소속 기업/그룹</th>
+                                <th className="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">권한</th>
+                                <th className="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">상태</th>
+                                <th className="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">관리</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-10 text-center text-slate-400 italic">데이터를 불러오는 중...</td>
+                                    <td colSpan={5} className="px-5 py-10 text-center text-slate-400 italic text-[12px]">사용자 데이터를 불러오는 중...</td>
                                 </tr>
                             ) : filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-10 text-center text-slate-400 italic">검색 결과가 없습니다.</td>
+                                    <td colSpan={5} className="px-5 py-10 text-center text-slate-400 italic text-[12px]">검색 결과와 일치하는 사용자가 없습니다.</td>
                                 </tr>
                             ) : filteredUsers.map((user) => (
                                 <tr key={user.id} className="hover:bg-slate-50/50 transition-colors group">
-                                    <td className="px-6 py-5">
+                                    <td className="px-5 py-3">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold border border-indigo-100">
+                                            <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold border border-indigo-100 text-[11px] group-hover:bg-indigo-500 group-hover:text-white group-hover:border-indigo-500 transition-all duration-300">
                                                 {user.user_name?.[0] || user.email[0]}
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-slate-800">{user.user_name || '이름 없음'}</p>
-                                                <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
+                                                <p className="text-[12px] font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{user.user_name || '이름 없음'}</p>
+                                                <p className="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5 font-medium">
                                                     <Mail size={10} />
                                                     {user.email}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-5">
-                                        <div className="space-y-1">
-                                            <p className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                                                <Building2 size={14} className="text-slate-400" />
-                                                {user.company_name || '회사 정보 없음'}
+                                    <td className="px-5 py-3">
+                                        <div className="space-y-0.5">
+                                            <p className="text-[11px] font-bold text-slate-700 flex items-center gap-1.5">
+                                                <Building2 size={12} className="text-slate-400" />
+                                                {user.company_name || '기업 정보 없음'}
                                             </p>
-                                            <p className="text-[11px] text-indigo-500 font-bold bg-indigo-50 px-2 py-0.5 rounded-full inline-block">
-                                                {user.groups?.name || '소속 없음'}
+                                            <p className="text-[9px] text-indigo-500 font-bold uppercase tracking-wide">
+                                                {user.groups?.name || '일반 그룹'}
                                             </p>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-5">
+                                    <td className="px-5 py-3">
                                         <select
                                             disabled={userProfile?.role !== 'super_admin'}
-                                            className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:opacity-50"
+                                            className="bg-white border border-slate-200 rounded-md px-2 py-0.5 text-[10px] font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 disabled:opacity-50"
                                             value={user.role || 'user'}
                                             onChange={(e) => handleRoleChange(user.id, e.target.value)}
                                         >
                                             <option value="user">일반 사용자</option>
                                             <option value="group_admin">기관 운영자</option>
-                                            <option value="super_admin">최고 운영자</option>
+                                            <option value="super_admin">최고 관리자</option>
                                         </select>
                                     </td>
-                                    <td className="px-6 py-5">
-                                        <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-100 font-bold">
-                                            Active
-                                        </Badge>
+                                    <td className="px-5 py-3">
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="w-1 h-1 rounded-full bg-emerald-500 shadow-[0_0_4px_rgba(16,185,129,0.5)]"></div>
+                                            <span className="text-[10px] font-bold text-emerald-600 uppercase">정상</span>
+                                        </div>
                                     </td>
-                                    <td className="px-6 py-5 text-right">
-                                        <div className="flex items-center justify-end gap-2">
-                                            <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-indigo-600 hover:bg-white hover:shadow-sm rounded-xl transition-all">
-                                                <ExternalLink size={16} />
-                                            </Button>
-                                            <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-slate-600 hover:bg-white hover:shadow-sm rounded-xl transition-all">
-                                                <MoreHorizontal size={16} />
+                                    <td className="px-5 py-3 text-right">
+                                        <div className="flex items-center justify-end gap-1 translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+                                            <Link href={`/admin/users/${user.id}`}>
+                                                <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-indigo-600 hover:bg-white hover:shadow-sm rounded-md transition-all">
+                                                    <ExternalLink size={14} />
+                                                </Button>
+                                            </Link>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-slate-600 hover:bg-white hover:shadow-sm rounded-md transition-all">
+                                                <MoreHorizontal size={14} />
                                             </Button>
                                         </div>
                                     </td>
@@ -220,15 +222,15 @@ export default function UsersPage() {
                     </table>
                 </div>
                 {!loading && (
-                    <div className="p-4 border-t border-slate-50 flex items-center justify-between">
-                        <p className="text-xs text-slate-400 font-medium">전체 {filteredUsers.length}명 검색됨</p>
-                        <div className="flex gap-2">
-                            <Button variant="outline" size="sm" disabled className="h-8 rounded-lg text-xs font-bold">이전</Button>
-                            <Button variant="outline" size="sm" disabled className="h-8 rounded-lg text-xs font-bold">다음</Button>
+                    <div className="px-5 py-3 border-t border-slate-50 flex items-center justify-between bg-slate-50/20">
+                        <p className="text-[11px] text-slate-400 font-bold uppercase">{filteredUsers.length}명의 사용자가 검색되었습니다.</p>
+                        <div className="flex gap-1.5">
+                            <Button variant="outline" size="sm" disabled className="h-7 px-3 rounded-md text-[10px] font-bold text-slate-500 border-slate-200">이전</Button>
+                            <Button variant="outline" size="sm" disabled className="h-7 px-3 rounded-md text-[10px] font-bold text-slate-500 border-slate-200">다음</Button>
                         </div>
                     </div>
                 )}
-            </Card>
+            </div>
         </div>
     )
 }

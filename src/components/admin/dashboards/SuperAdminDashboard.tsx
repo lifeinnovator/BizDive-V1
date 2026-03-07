@@ -169,7 +169,7 @@ export default function SuperAdminDashboard({ stats }: SuperAdminDashboardProps)
                                             <p className="text-sm font-bold text-slate-800 truncate">{item.company}</p>
                                             <Badge variant="outline" className="text-[10px] py-0 px-1.5 opacity-70 bg-indigo-50 border-indigo-100 text-indigo-600 font-bold">{item.group}</Badge>
                                         </div>
-                                        <p className="text-xs text-slate-500 font-medium mt-0.5">{item.event} (점수: {item.score}pt)</p>
+                                        <p className="text-xs text-slate-500 font-medium mt-0.5">{item.event} (점수: {item.score}점)</p>
                                     </div>
                                     <span className="text-[11px] font-bold text-slate-400 whitespace-nowrap">{item.time}</span>
                                 </div>
@@ -183,15 +183,15 @@ export default function SuperAdminDashboard({ stats }: SuperAdminDashboardProps)
                 <Card className="border-none shadow-sm bg-white">
                     <CardHeader className="border-b border-slate-50 flex flex-row items-center justify-between">
                         <CardTitle className="text-base font-bold text-slate-800">시스템 연동 현황</CardTitle>
-                        <Badge className="bg-emerald-500 text-white border-none font-bold">Healty (99.9%)</Badge>
+                        <Badge className="bg-emerald-500 text-white border-none font-bold">정상 가동 중 (99.9%)</Badge>
                     </CardHeader>
                     <CardContent className="p-6">
                         <div className="space-y-6">
                             {[
-                                { name: 'Supabase Database', status: 'Operational', latency: '42ms', color: 'bg-emerald-500' },
-                                { name: 'Vercel Deployment', status: 'Operational', latency: '124ms', color: 'bg-emerald-500' },
-                                { name: 'Resend API (Mailer)', status: 'Operational', latency: '210ms', color: 'bg-emerald-500' },
-                                { name: 'Recharts Rendering', status: 'Operational', latency: '15ms', color: 'bg-emerald-500' },
+                                { name: 'Supabase Database', status: '정상 작동', latency: '42ms', color: 'bg-emerald-500' },
+                                { name: 'Vercel Deployment', status: '정상 작동', latency: '124ms', color: 'bg-emerald-500' },
+                                { name: 'Resend API (Mailer)', status: '정상 작동', latency: '210ms', color: 'bg-emerald-500' },
+                                { name: 'Recharts Rendering', status: '정상 작동', latency: '15ms', color: 'bg-emerald-500' },
                             ].map((s) => (
                                 <div key={s.name} className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">

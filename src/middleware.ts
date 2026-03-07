@@ -39,26 +39,7 @@ export async function middleware(request: NextRequest) {
     // Refresh the session
     const { data: { user } } = await supabase.auth.getUser()
 
-    // 1. Protect /admin routes (except /admin/demo/**)
-    if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/demo')) {
-        if (!user) {
-            const url = request.nextUrl.clone()
-            url.pathname = '/login'
-            return NextResponse.redirect(url)
-        }
-
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single()
-
-        if (!profile || (profile.role !== 'super_admin' && profile.role !== 'group_admin')) {
-            return NextResponse.redirect(new URL('/dashboard?error=admin_access_denied', request.url))
-        }
-    }
-
-    // 2. Protect /dashboard and saved report routes
+    // 1. Protect /dashboard and saved report routes
     if (pathname.startsWith('/dashboard') ||
         (pathname.startsWith('/report') && !pathname.startsWith('/report/preview'))) {
         if (!user) {

@@ -148,118 +148,107 @@ export default function ProjectStatistics({ projectId, projectRound = 1 }: Proje
         : 0;
 
     return (
-        <div className="space-y-6">
-            {/* Top Cards: Magic Dashboard Overview */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="border-slate-100 shadow-sm overflow-hidden relative">
-                    <div className="absolute top-0 right-0 p-4 opacity-5">
-                        <Users size={64} />
-                    </div>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 z-10 relative">
-                        <CardTitle className="text-sm font-bold text-slate-500">참여 기업 수</CardTitle>
-                        <Users className="h-4 w-4 text-indigo-500" />
-                    </CardHeader>
-                    <CardContent className="z-10 relative">
-                        <div className="text-2xl font-bold text-slate-900">{stats.totalParticipants}개사</div>
-                        <p className="text-xs text-slate-500 mt-1 font-medium">현재 기수에 등록된 전체 기업</p>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-slate-100 shadow-sm overflow-hidden relative">
-                    <div className="absolute top-0 right-0 p-4 opacity-5">
-                        <FileText size={64} />
-                    </div>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 z-10 relative">
-                        <CardTitle className="text-sm font-bold text-slate-500">진단 완료율 (신호등 UI)</CardTitle>
-                        <AlertCircle className={`h-4 w-4 ${completionRate >= 80 ? 'text-emerald-500' : completionRate >= 50 ? 'text-amber-500' : 'text-rose-500'}`} />
-                    </CardHeader>
-                    <CardContent className="z-10 relative">
-                        <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-slate-900">{completionRate}%</span>
-                            <Badge variant="outline" className={`font-bold ${completionRate >= 80 ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : completionRate >= 50 ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-rose-50 text-rose-600 border-rose-200'}`}>
-                                {stats.completedCount} / {stats.totalParticipants} 제출
-                            </Badge>
+        <div className="space-y-4">
+            {/* Top Cards: Magic Dashboard Overview - Compact Version */}
+            <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+                <div className="dashboard-card p-4 flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="label-text">COMPANIES</p>
+                        <div className="p-1.5 bg-slate-50 text-slate-400 rounded-md">
+                            <Users size={14} />
                         </div>
-                        <div className="w-full bg-slate-100 h-2 mt-3 rounded-full overflow-hidden">
+                    </div>
+                    <div>
+                        <h3 className="data-text">{stats.totalParticipants}<span className="text-[11px] font-medium ml-1 text-slate-400 tracking-normal">UNITS</span></h3>
+                        <p className="meta-text mt-1 italic">Total managed</p>
+                    </div>
+                </div>
+
+                <div className="dashboard-card p-4 flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="label-text">COMPLETION</p>
+                        <div className={`w-2 h-2 rounded-full ${completionRate >= 80 ? 'bg-emerald-400' : completionRate >= 50 ? 'bg-amber-400' : 'bg-rose-400'}`} />
+                    </div>
+                    <div>
+                        <div className="flex items-baseline gap-1.5">
+                            <h3 className="data-text">{completionRate}%</h3>
+                            <span className="text-[10px] font-bold text-slate-300">({stats.completedCount}/{stats.totalParticipants})</span>
+                        </div>
+                        <div className="w-full bg-slate-100 h-1 mt-2 rounded-full overflow-hidden">
                             <div
-                                className={`h-full ${completionRate >= 80 ? 'bg-emerald-500' : completionRate >= 50 ? 'bg-amber-500' : 'bg-rose-500'}`}
+                                className={`h-full transition-all duration-700 ${completionRate >= 80 ? 'bg-emerald-500' : completionRate >= 50 ? 'bg-amber-500' : 'bg-rose-500'}`}
                                 style={{ width: `${completionRate}%` }}
                             />
                         </div>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-slate-100 shadow-sm overflow-hidden relative">
-                    <div className="absolute top-0 right-0 p-4 opacity-5">
-                        <TrendingUp size={64} />
                     </div>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 z-10 relative">
-                        <CardTitle className="text-sm font-bold text-slate-500">우리 사업 평균 점수</CardTitle>
-                        <TrendingUp className="h-4 w-4 text-indigo-500" />
-                    </CardHeader>
-                    <CardContent className="z-10 relative">
-                        <div className="text-2xl font-bold text-slate-900">{stats.avgScore} <span className="text-sm font-medium text-slate-500">pt</span></div>
-                        <p className="text-xs text-slate-500 mt-1 font-medium">{projectRound}차 진단 결과 기준</p>
-                    </CardContent>
-                </Card>
+                </div>
 
-                <Card className="border-slate-100 shadow-sm overflow-hidden relative bg-indigo-50/30">
-                    <div className="absolute top-0 right-0 p-4 opacity-5">
-                        <Presentation size={64} />
-                    </div>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 z-10 relative">
-                        <CardTitle className="text-sm font-bold text-indigo-700">전체 평균 (Benchmark)</CardTitle>
-                        <Presentation className="h-4 w-4 text-indigo-500" />
-                    </CardHeader>
-                    <CardContent className="z-10 relative">
-                        <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-slate-900">{stats.bizDiveAvg} <span className="text-sm font-medium text-slate-500">pt</span></span>
+                <div className="dashboard-card p-4 flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="label-text">AVG PERFORMANCE</p>
+                        <div className="p-1.5 bg-slate-50 text-slate-400 rounded-md">
+                            <TrendingUp size={14} />
                         </div>
-                        <p className="text-xs text-indigo-600 mt-1 font-medium">
-                            전체 사업 대비 {stats.avgScore > stats.bizDiveAvg ? `+${(stats.avgScore - stats.bizDiveAvg).toFixed(1)}점 높음` : `${(stats.avgScore - stats.bizDiveAvg).toFixed(1)}점 낮음`}
-                        </p>
-                    </CardContent>
-                </Card>
+                    </div>
+                    <div>
+                        <h3 className="data-text">{stats.avgScore}<span className="text-[11px] font-medium ml-1 text-slate-400 tracking-normal">PT</span></h3>
+                        <p className="meta-text mt-1 italic text-indigo-500 font-bold">Current vs Previous</p>
+                    </div>
+                </div>
+
+                <div className="dashboard-card p-4 flex flex-col justify-between bg-slate-900 border-none group">
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="label-text text-slate-400">GLOBAL AVG</p>
+                        <Presentation size={14} className="text-slate-500 group-hover:text-indigo-400 transition-colors" />
+                    </div>
+                    <div>
+                        <h3 className="data-text text-white">{stats.bizDiveAvg}<span className="text-[11px] font-medium ml-1 text-slate-600 tracking-normal">PT</span></h3>
+                        <div className="flex items-center gap-1.5 mt-1">
+                            <span className={`text-[10px] font-bold ${stats.avgScore > stats.bizDiveAvg ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                {stats.avgScore > stats.bizDiveAvg ? 'OVER' : 'UNDER'} {Math.abs(stats.avgScore - stats.bizDiveAvg).toFixed(1)}pt
+                            </span>
+                            <span className="text-[10px] text-slate-600 font-bold">vs Benchmark</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {/* Middle Section: Charts */}
-            <div className="grid gap-6 md:grid-cols-1">
-                <ComparativeChart
-                    data={stats.comparisonData.length > 0 ? stats.comparisonData : MOCK_GROWTH_DATA}
-                    title={`${projectRound}차 진단 결과 분석`}
-                    roundLabel1={projectRound > 1 ? `${projectRound - 1}차 진단` : "벤치마크"}
-                    roundLabel2={`${projectRound}차 진단`}
-                />
+            {/* Middle Section: Charts - Compact Version */}
+            <div className="grid gap-4 md:grid-cols-2">
+                <div className="dashboard-card overflow-hidden">
+                    <ComparativeChart
+                        data={stats.comparisonData.length > 0 ? stats.comparisonData : MOCK_GROWTH_DATA}
+                        title="Dimension Capability Radar"
+                        roundLabel1={projectRound > 1 ? `Round ${projectRound - 1}` : "Benchmark"}
+                        roundLabel2={`Round ${projectRound}`}
+                    />
+                </div>
 
-                <Card className="border-slate-100 shadow-sm">
-                    <CardHeader>
-                        <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-                            <div className="w-1.5 h-4 bg-emerald-500 rounded-full"></div>
-                            주요 우수 기업 스코어 변동
-                        </CardTitle>
-                        <CardDescription className="font-medium">
-                            성장 폭이 가장 큰 참여 기업 TOP 5의 총점 변화 라인 차트입니다.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="h-[300px] w-full mt-4">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={MOCK_TOTAL_SCORE_TREND} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                    <XAxis dataKey="company" tick={{ fill: '#64748b', fontSize: 11, fontWeight: 600 }} axisLine={false} tickLine={false} />
-                                    <YAxis domain={[0, 100]} tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
-                                    <Tooltip
-                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontWeight: 600 }}
-                                        cursor={{ stroke: '#e2e8f0', strokeWidth: 2 }}
-                                    />
-                                    <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '12px', fontWeight: 600 }} />
-                                    <Line type="monotone" name="1차 점수" dataKey="before" stroke="#94a3b8" strokeWidth={3} dot={{ strokeWidth: 2, r: 4 }} activeDot={{ r: 6 }} />
-                                    <Line type="monotone" name="2차 점수" dataKey="after" stroke="#10b981" strokeWidth={3} dot={{ strokeWidth: 2, r: 4 }} activeDot={{ r: 6 }} />
-                                </LineChart>
-                            </ResponsiveContainer>
+                <div className="dashboard-card p-5">
+                    <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h4 className="text-[13px] font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                                <span className="w-1.5 h-3 bg-emerald-400 rounded-full"></span>
+                                Top Gainer Trends
+                            </h4>
+                            <p className="meta-text mt-0.5">Performance tracking for top 5 units</p>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                    <div className="h-[220px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={MOCK_TOTAL_SCORE_TREND} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
+                                <XAxis dataKey="company" hide />
+                                <YAxis domain={[0, 100]} tick={{ fill: '#cbd5e1', fontSize: 10 }} axisLine={false} tickLine={false} />
+                                <Tooltip
+                                    contentStyle={{ borderRadius: '6px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: '11px', fontWeight: 700 }}
+                                />
+                                <Line type="monotone" name="Prev" dataKey="before" stroke="#f1f5f9" strokeWidth={2} dot={false} activeDot={{ r: 4 }} />
+                                <Line type="monotone" name="Current" dataKey="after" stroke="#10b981" strokeWidth={3} dot={{ r: 3, fill: '#10b981' }} activeDot={{ r: 5 }} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
             </div>
 
             <div className="text-center text-xs font-medium text-slate-400 mt-4 pb-10">

@@ -48,52 +48,51 @@ const COMPARISON_DATA = [
 export default function InstitutionAdminDashboard({ profile, stats, isDemo = false }: InstitutionAdminDashboardProps) {
     return (
         <div className="space-y-8 animate-in fade-in duration-700">
-            {/* Institution Header */}
-            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl -mr-32 -mt-32"></div>
+            {/* Institution Header - Compact Version */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden relative group/hero">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-50/40 rounded-full blur-3xl -mr-24 -mt-24 transition-transform group-hover/hero:scale-110 duration-700"></div>
                 <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-2">
-                        <Badge className="bg-indigo-600 text-white border-none font-bold">기관 관리자</Badge>
-                        <span className="text-slate-400 font-bold text-sm">|</span>
-                        <span className="text-slate-500 font-bold text-sm italic">{profile?.group_name || '소속 기관 정보 없음'}</span>
+                    <div className="flex items-center gap-2 mb-1.5">
+                        <Badge className="bg-indigo-600 text-[10px] text-white border-none font-bold px-2 py-0">BIZDIVE 어드민</Badge>
+                        <span className="text-slate-300 font-bold text-xs">/</span>
+                        <span className="text-slate-400 font-bold text-[11px] uppercase tracking-wider">{profile?.group_name || 'BIZDIVE'}</span>
                     </div>
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-                        반갑습니다, <span className="text-indigo-600">{profile?.user_name || '매니저'}</span>님!
+                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+                        안녕하세요, <span className="text-indigo-600">{profile?.user_name || '관리자'}님</span>
                     </h1>
-                    <p className="text-slate-500 mt-2 font-medium flex items-center gap-2">
-                        현재 운영중인 프로젝트와 기업들의 성장 지표를 한눈에 확인하세요.
+                    <p className="text-slate-500 mt-1 text-xs font-medium flex items-center gap-2 opacity-80">
+                        진행 중인 프로젝트와 참여 기업의 성장 지표를 실시간으로 확인하세요.
                     </p>
                 </div>
-                <div className="flex gap-3 relative z-10">
+                <div className="flex gap-2 relative z-10">
                     <Link href={isDemo ? "/admin/demo/projects" : "/admin/projects"}>
-                        <Button className="bg-slate-900 text-white hover:bg-slate-800 font-bold px-6 h-12 rounded-xl shadow-lg shadow-slate-200">
-                            신규 프로젝트 생성
+                        <Button className="bg-slate-900 text-white hover:bg-slate-800 text-xs font-bold px-4 h-10 rounded-lg shadow-sm">
+                            <Briefcase size={14} className="mr-2" />
+                            신규 프로젝트 개설
                         </Button>
                     </Link>
                 </div>
             </div>
 
             {/* Group Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
-                    { name: '관리 기업', value: stats.totalUsers, icon: Building2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                    { name: '진행 프로젝트', value: stats.totalProjects, icon: Briefcase, color: 'text-purple-600', bg: 'bg-purple-50' },
-                    { name: '제출된 진단', value: stats.totalRecords, icon: ClipboardCheck, color: 'text-amber-600', bg: 'bg-amber-50' },
-                    { name: '그룹 평균 점수', value: stats.avgScore, icon: LineChart, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                    { name: '관리 기업 수', value: stats.totalUsers, icon: Building2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+                    { name: '진행 중인 사업', value: stats.totalProjects, icon: Briefcase, color: 'text-purple-600', bg: 'bg-purple-50' },
+                    { name: '전체 진단 건수', value: stats.totalRecords, icon: ClipboardCheck, color: 'text-amber-600', bg: 'bg-amber-50' },
+                    { name: '기관 전체 평균', value: stats.avgScore, icon: LineChart, color: 'text-emerald-600', bg: 'bg-emerald-50' },
                 ].map((item) => (
-                    <Card key={item.name} className="border-none shadow-sm bg-white group hover:shadow-md transition-all">
-                        <CardContent className="p-6">
-                            <div className="flex items-start justify-between">
-                                <div>
-                                    <p className="text-sm font-bold text-slate-400 mb-1">{item.name}</p>
-                                    <h3 className="text-2xl font-black text-slate-900">{item.value}</h3>
-                                </div>
-                                <div className={`p-4 rounded-2xl ${item.bg} group-hover:scale-110 transition-transform`}>
-                                    <item.icon size={26} className={item.color} />
-                                </div>
+                    <div key={item.name} className="dashboard-card p-4 group hover:border-indigo-200 transition-all">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="label-text mb-1">{item.name}</p>
+                                <h3 className="data-text">{item.value}</h3>
                             </div>
-                        </CardContent>
-                    </Card>
+                            <div className={`p-2.5 rounded-lg ${item.bg} group-hover:scale-105 transition-transform`}>
+                                <item.icon size={18} className={item.color} />
+                            </div>
+                        </div>
+                    </div>
                 ))}
             </div>
 
@@ -117,90 +116,87 @@ export default function InstitutionAdminDashboard({ profile, stats, isDemo = fal
                 </Card>
 
                 {/* Recent Activity in My Group */}
-                <Card className="border-none shadow-sm bg-white overflow-hidden">
-                    <CardHeader className="border-b border-slate-50 flex flex-row items-center justify-between">
-                        <CardTitle className="text-lg font-bold text-slate-800">최근 소속 기업 활동</CardTitle>
-                        <Badge variant="secondary" className="bg-slate-100 text-slate-500">Live</Badge>
-                    </CardHeader>
-                    <CardContent className="p-0">
+                <div className="dashboard-card">
+                    <div className="px-5 py-4 border-b border-slate-50 flex items-center justify-between">
+                        <h3 className="text-sm font-bold text-slate-800">최근 활동 내역</h3>
+                        <Badge variant="secondary" className="bg-slate-100 text-slate-500 text-[10px] px-1.5 py-0">실시간</Badge>
+                    </div>
+                    <div className="p-0">
                         <div className="divide-y divide-slate-50">
                             {stats.recentActivities.length > 0 ? stats.recentActivities.map((item, idx) => (
-                                <div key={idx} className="p-4 hover:bg-slate-50/50 transition-colors cursor-pointer group">
-                                    <div className="flex items-center gap-3 mb-1">
-                                        <p className="text-sm font-bold text-slate-800 truncate flex-grow group-hover:text-indigo-600 transition-colors">
+                                <div key={idx} className="px-5 py-3 hover:bg-slate-50/50 transition-colors cursor-pointer group">
+                                    <div className="flex items-center justify-between mb-1">
+                                        <p className="text-[12px] font-bold text-slate-700 truncate group-hover:text-indigo-600 transition-colors">
                                             {item.company}
                                         </p>
-                                        <span className="text-[10px] font-bold text-slate-400">{item.time}</span>
+                                        <span className="text-[10px] font-medium text-slate-400">{item.time}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Badge className="text-[10px] py-0 px-1.5 bg-slate-50 text-slate-500 border-slate-200 font-medium">진단 완료</Badge>
-                                        <span className="text-xs text-slate-500 font-medium shrink-0">• 점수: {item.score}pt</span>
+                                        <span className="text-[10px] font-bold text-emerald-500 tracking-tight uppercase">제출 완료</span>
+                                        <span className="text-[10px] text-slate-400 font-semibold shrink-0">• 점수: {item.score}</span>
                                     </div>
                                 </div>
                             )) : (
-                                <div className="p-10 text-center text-slate-400 font-medium text-sm italic">최근 활동이 없습니다.</div>
+                                <div className="p-10 text-center text-slate-400 font-medium text-[12px] italic">최근 활동 내역이 없습니다.</div>
                             )}
                         </div>
-                        <div className="p-4">
-                            <Button variant="ghost" className="w-full text-sm font-bold text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 h-11 border border-transparent hover:border-indigo-100 rounded-xl transition-all">
-                                모든 활동 내역 보기 <ChevronRight size={14} className="ml-1" />
+                        <div className="p-3 border-t border-slate-50">
+                            <Button variant="ghost" className="w-full text-xs font-bold text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 h-9 rounded-lg transition-all">
+                                전체 활동 보기 <ChevronRight size={12} className="ml-1" />
                             </Button>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </div>
 
-            {/* Project Stats (지원사업별 통계) */}
-            <div className="grid grid-cols-1 gap-8">
-                <Card className="border-none shadow-sm bg-white overflow-hidden">
-                    <CardHeader className="border-b border-slate-50 flex flex-row items-center justify-between">
-                        <CardTitle className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                            <Briefcase size={20} className="text-indigo-600" />
-                            지원사업별 진단 통계
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="bg-slate-50 border-b border-slate-100">
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider h-14">지원사업명</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider h-14">제출된 진단(건)</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider h-14 text-right">평균 점수</th>
+            {/* Project Stats (지원사업별 통계) - Compact Table */}
+            <div className="dashboard-card">
+                <div className="px-5 py-4 border-b border-slate-50 flex items-center gap-2">
+                    <Briefcase size={16} className="text-indigo-600" />
+                    <h3 className="text-sm font-bold text-slate-800">지원 사업별 통계</h3>
+                </div>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left compact-table border-collapse">
+                        <thead>
+                            <tr className="bg-slate-50/50 border-b border-slate-100">
+                                <th className="px-5 py-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">프로젝트명</th>
+                                <th className="px-5 py-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">진단 현황</th>
+                                <th className="px-5 py-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider text-right">평균 점수</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-50">
+                            {stats.projectStats && stats.projectStats.length > 0 ? (
+                                stats.projectStats.map((project: any) => (
+                                    <tr key={project.id} className="hover:bg-slate-50/50 transition-colors group">
+                                        <td className="px-5 py-3.5">
+                                            <div className="font-bold text-slate-700 text-[12px] group-hover:text-indigo-600 transition-colors">{project.name}</div>
+                                        </td>
+                                        <td className="px-5 py-3.5">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                    <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${Math.min(project.recordCount * 10, 100)}%` }}></div>
+                                                </div>
+                                                <span className="text-[10px] font-bold text-slate-500">{project.recordCount}건</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-5 py-3.5 text-right">
+                                            <div className="flex items-center justify-end gap-1">
+                                                <span className="text-[13px] font-bold text-slate-900">{project.avgScore}</span>
+                                                <span className="text-[10px] text-slate-400 font-bold">PT</span>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-50">
-                                    {stats.projectStats && stats.projectStats.length > 0 ? (
-                                        stats.projectStats.map((project: any) => (
-                                            <tr key={project.id} className="hover:bg-slate-50/50 transition-colors group">
-                                                <td className="px-6 py-4">
-                                                    <div className="font-bold text-slate-800 text-sm">{project.name}</div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-100 font-bold px-3">
-                                                        {project.recordCount}건
-                                                    </Badge>
-                                                </td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <div className="flex items-center justify-end gap-2">
-                                                        <span className="text-sm font-black text-slate-900">{project.avgScore}</span>
-                                                        <span className="text-xs text-slate-400">pt</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={3} className="px-6 py-12 text-center text-slate-400 font-medium text-sm italic">
-                                                등록된 지원사업 또는 제출된 진단 내역이 없습니다.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </CardContent>
-                </Card>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={3} className="px-6 py-12 text-center text-slate-400 font-medium text-xs italic">
+                                        활성 프로젝트 또는 진단 기록이 없습니다.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )
