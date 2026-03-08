@@ -21,11 +21,21 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [rememberEmail, setRememberEmail] = useState(false);
 
     // UI States
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Load remembered email
+    React.useEffect(() => {
+        const savedEmail = localStorage.getItem('bizdive_remembered_email');
+        if (savedEmail) {
+            setEmail(savedEmail);
+            setRememberEmail(true);
+        }
+    }, []);
 
     const handleGuestStart = async () => {
         if (!username.trim() || !email.trim()) {
@@ -63,6 +73,13 @@ export default function LoginPage() {
                 console.error('Login Error:', signInError);
                 setError('이메일 또는 비밀번호가 일치하지 않습니다.');
             } else {
+                // Save or clear email in localStorage
+                if (rememberEmail) {
+                    localStorage.setItem('bizdive_remembered_email', email);
+                } else {
+                    localStorage.removeItem('bizdive_remembered_email');
+                }
+
                 if (data.user) {
                     // Always redirect to dashboard on the main site
                     router.push('/dashboard');
@@ -134,6 +151,22 @@ export default function LoginPage() {
                             >
                                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
+                        </div>
+
+                        <div className="flex items-center space-x-2 px-1">
+                            <input
+                                type="checkbox"
+                                id="rememberEmail"
+                                checked={rememberEmail}
+                                onChange={(e) => setRememberEmail(e.target.checked)}
+                                className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                            />
+                            <label
+                                htmlFor="rememberEmail"
+                                className="text-sm font-medium text-slate-500 cursor-pointer select-none"
+                            >
+                                이메일 기억하기
+                            </label>
                         </div>
 
                         {error && (
