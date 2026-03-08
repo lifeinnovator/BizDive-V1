@@ -275,26 +275,26 @@ export default function DiagnosisForm({
 // Helpers for Dimension Info (Mock/Static for now)
 function getDimensionTitle(key: string) {
     const titles: Record<string, string> = {
-        D1: '시장분석 (Market Analysis)',
-        D2: '문제이해 (Problem)',
-        D3: '해결가치 (Solution)',
-        D4: '실행역량 (ExecutionContext)',
-        D5: '기술역량 (Tech/Product)',
-        D6: '수익모델 (Business Model)',
-        D7: '성장전략 (Growth Strategy)'
+        D1: '경영전략/리더쉽',
+        D2: '비즈니스 모델',
+        D3: '마케팅/영업',
+        D4: '조직/인사',
+        D5: '기술/R&D',
+        D6: '재무/자금',
+        D7: '경영/ESG'
     }
     return titles[key] || key
 }
 
 function getDimensionDesc(key: string) {
     const descs: Record<string, string> = {
-        D1: '시장 규모와 성장성을 분석합니다.',
-        D2: '타겟 고객과 문제 정의의 명확성을 점검합니다.',
-        D3: '경쟁사 대비 핵심 경쟁력을 진단합니다.',
-        D4: '팀 구성과 실행 역량을 평가합니다.',
-        D5: '제품/서비스 개발 및 기술 안정성을 확인합니다.',
-        D6: '비즈니스 모델과 수익 구조를 분석합니다.',
-        D7: '시장 확장 및 스케일업 가능성을 예측합니다.'
+        D1: '기업의 비전, 핵심 가치 및 시장에서의 전략적 방향을 진단합니다.',
+        D2: '수익 구조의 타당성과 비즈니스 모델의 경쟁력을 점검합니다.',
+        D3: '마케팅 전략의 효율성과 영업 채널의 경쟁력을 평가합니다.',
+        D4: '팀 구성의 우수성과 조직 관리 체계의 실행력을 확인합니다.',
+        D5: '핵심 기술력 확보 수준과 연구개발 역량을 분석합니다.',
+        D6: '자금 효율성 및 재무 구조의 건전성을 진단합니다.',
+        D7: 'ESG 경영 체계 및 지속 가능한 성장 가능성을 예측합니다.'
     }
     return descs[key] || ''
 }

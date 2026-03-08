@@ -12,13 +12,13 @@ interface CategoryBreakdownProps {
 }
 
 const SECTIONS = [
-    { id: 'D1', title: 'D1. 시장분석 (Market Analysis)', maxScore: 100 },
-    { id: 'D2', title: 'D2. 문제이해 (Problem)', maxScore: 100 },
-    { id: 'D3', title: 'D3. 해결가치 (Solution)', maxScore: 100 },
-    { id: 'D4', title: 'D4. 실행역량 (Execution)', maxScore: 100 },
-    { id: 'D5', title: 'D5. 기술역량 (Tech)', maxScore: 100 },
-    { id: 'D6', title: 'D6. 수익모델 (BM)', maxScore: 100 },
-    { id: 'D7', title: 'D7. 성장전략 (Growth Strategy)', maxScore: 100 },
+    { id: 'D1', title: '경영전략/리더쉽', maxScore: 100 },
+    { id: 'D2', title: '비즈니스 모델', maxScore: 100 },
+    { id: 'D4', title: '조직/인사', maxScore: 100 },
+    { id: 'D3', title: '마케팅/영업', maxScore: 100 },
+    { id: 'D5', title: '기술/R&D', maxScore: 100 },
+    { id: 'D6', title: '재무/자금', maxScore: 100 },
+    { id: 'D7', title: '경영/ESG', maxScore: 100 },
 ];
 
 const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({ sectionScores, earnedScores, maxScores, totalScore }) => {

@@ -17,13 +17,13 @@ interface RadarChartProps {
 
 // Map Dimensions D1-D7 to Names
 const DIMENSION_NAMES: Record<string, string> = {
-    D1: '시장분석',
-    D2: '문제이해',
-    D3: '해결가치',
-    D4: '실행역량',
-    D5: '기술역량',
-    D6: '수익모델',
-    D7: '성장전략'
+    D1: '경영전략/리더쉽',
+    D2: '비즈니스 모델',
+    D3: '마케팅/영업',
+    D4: '조직/인사',
+    D5: '기술/R&D',
+    D6: '재무/자금',
+    D7: '경영/ESG'
 }
 
 const SECTIONS = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7'];

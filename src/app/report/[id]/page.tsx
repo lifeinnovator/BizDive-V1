@@ -8,7 +8,7 @@ import { PrintButton, ExpertRequestButton, ReportHeaderActions } from '@/compone
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import GrowthAnalysis from '@/components/report/GrowthAnalysis'
-import { History, ArrowLeft, CheckCircle2, TrendingUp, HelpCircle, MessageSquare, Target, Layers, Info } from 'lucide-react'
+import { History, ArrowLeft, CheckCircle2, TrendingUp, HelpCircle, MessageSquare, Target, Layers, Info, Trophy, Wrench } from 'lucide-react'
 import { getDiagnosisQuestions } from '@/lib/diagnosis-logic'
 import ConsultantBanner from '@/components/report/ConsultantBanner'
 import { Button } from '@/components/ui/button'
@@ -133,10 +133,28 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
 
         const dimensionScores = record.dimension_scores as Record<string, number>
         const totalScore = record.total_score || 0
-        const stageInfo = getStageInfo(totalScore)
+        const stageInfo = getStageInfo(totalScore, dimensionScores)
+
+        const getProgressBarColor = (score: number) => {
+            if (score >= 80) return 'bg-emerald-500'
+            if (score >= 60) return 'bg-amber-400'
+            return 'bg-rose-500'
+        }
+
+        const getStatusIcon = (score: number) => {
+            if (score >= 80) return <Trophy size={14} className="text-emerald-500 shrink-0" />
+            if (score >= 60) return <CheckCircle2 size={14} className="text-amber-500 shrink-0" />
+            return <Wrench size={14} className="text-rose-400 shrink-0" />
+        }
 
         const DIMENSION_KR: Record<string, string> = {
-            D1: '시장분석', D2: '문제이해', D3: '해결가치', D4: '실행역량', D5: '기술역량', D6: '수익모델', D7: '성장전략'
+            D1: '경영전략/리더쉽',
+            D2: '비즈니스 모델',
+            D4: '조직/인사',
+            D3: '마케팅/영업',
+            D5: '기술/R&D',
+            D6: '재무/자금',
+            D7: '경영/ESG'
         }
 
         const STAGE_LABELS: Record<string, string> = {
@@ -317,18 +335,18 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                                 기업 종합 분석
                                             </CardTitle>
                                         </CardHeader>
-                                        <CardContent className="p-6 space-y-5">
-                                            {Object.keys(DIMENSION_KR).sort().map(key => {
+                                        <CardContent className="p-6 space-y-4">
+                                            {Object.keys(DIMENSION_KR).map(key => {
                                                 const score = dimensionScores[key] || 0
                                                 const stage = profile?.stage || 'P'
-                                                const maxScore = STAGE_MAX_SCORES[stage]?.[key] || maxScores[key] || 15
+                                                const maxScore = STAGE_MAX_SCORES[stage]?.[key] || 15
                                                 const actualPoint = (score / 100) * maxScore
                                                 
                                                 return (
-                                                    <div key={key} className="space-y-2 group">
-                                                        <div className="flex items-center justify-between text-sm">
+                                                    <div key={key} className="space-y-1.5 group">
+                                                        <div className="flex items-center justify-between text-[13px]">
                                                             <span className="font-bold text-slate-600 flex items-center gap-2">
-                                                                {DIMENSION_KR[key]}
+                                                                {getStatusIcon(score)} {DIMENSION_KR[key]}
                                                             </span>
                                                             <div className="flex items-baseline gap-1">
                                                                 <span className="text-lg font-black text-slate-900">
@@ -337,9 +355,9 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                                                 <span className="text-slate-400 text-xs font-bold">/ {maxScore.toFixed(1)}</span>
                                                             </div>
                                                         </div>
-                                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-50">
+                                                        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-50">
                                                             <div
-                                                                className="h-full rounded-full transition-all duration-1000 ease-out bg-indigo-500 shadow-sm"
+                                                                className={`h-full rounded-full transition-all duration-1000 ease-out ${getProgressBarColor(score)} shadow-sm`}
                                                                 style={{ width: `${score}%` }}
                                                             />
                                                         </div>
@@ -363,7 +381,7 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent className="p-6 space-y-7">
-                                        {Object.keys(dimensionScores).sort().map((dim, idx) => {
+                                        {Object.keys(dimensionScores).map((dim, idx) => {
                                             const score = dimensionScores[dim]
                                             const stage = profile?.stage || 'P'
                                             const maxScore = STAGE_MAX_SCORES[stage]?.[dim] || maxScores[dim] || 15
@@ -378,25 +396,19 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                             return (
                                                 <div key={dim} className="group print:break-inside-avoid">
                                                     {/* Header: Title & Score */}
-                                                    <div className="flex justify-between items-end mb-2.5">
+                                                    <div className="flex justify-between items-center mb-3">
                                                         <h4 className="text-[14.5px] font-bold text-gray-900 flex items-center gap-2">
-                                                            <span className="text-indigo-600 font-bold text-[13px]">{idx + 1}.</span>
+                                                            <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[11px] text-slate-500 font-bold">
+                                                                {idx + 1}
+                                                            </div>
                                                             {DIMENSION_KR[dim] || dim}
                                                         </h4>
-                                                        <div className="text-right">
-                                                            <span className="text-[18px] font-extrabold text-slate-800">
+                                                        <div className="bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+                                                            <span className="text-[15px] font-black text-indigo-600">
                                                                 {rawScore.toFixed(1)}
                                                             </span>
-                                                            <span className="text-gray-400 font-medium text-[12.5px] ml-1">/ {maxScore}</span>
+                                                            <span className="text-gray-400 font-bold text-[11px] ml-1">/ {maxScore.toFixed(1)}</span>
                                                         </div>
-                                                    </div>
-
-                                                    {/* Progress Bar */}
-                                                    <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden mb-3 border border-gray-100">
-                                                        <div
-                                                            className="h-full rounded-full transition-all duration-1000 ease-out shadow-sm bg-indigo-500"
-                                                            style={{ width: `${score}%` }}
-                                                        ></div>
                                                     </div>
 
                                                     {/* Feedback Box */}
