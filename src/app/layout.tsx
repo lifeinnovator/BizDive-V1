@@ -10,10 +10,10 @@ export const metadata: Metadata = {
   description: "기업의 현재 상태를 7차원 입체 분석으로 진단하고 솔루션을 제안합니다.",
   icons: {
     icon: [
-      { url: '/favicon.png?v=2', href: '/favicon.png?v=2' },
+      { url: '/favicon.png?v=2' },
     ],
     apple: [
-      { url: '/favicon.png?v=2', href: '/favicon.png?v=2' },
+      { url: '/favicon.png?v=2' },
     ],
   },
   openGraph: {

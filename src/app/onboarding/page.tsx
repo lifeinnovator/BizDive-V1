@@ -114,6 +114,7 @@ export default function OnboardingPage() {
                     timestamp: new Date().toISOString()
                 }))
 
+                router.refresh()
                 router.push('/diagnosis')
             }
         } catch (error) {
