@@ -90,7 +90,7 @@ export default function DiagnosisForm({
 
             // Section Score for Radar Chart (0-100%)
             calculatedSectionScores[sec.id] = sectionTotal > 0
-                ? (sectionEarned / sectionTotal) * 100
+                ? Math.round((sectionEarned / sectionTotal) * 100 * 10) / 10
                 : 0
 
             // Raw Scores for Detailed Breakdown

@@ -67,10 +67,10 @@ export default function AdminDemoProjects() {
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">사업 관리</h2>
+                    <h2 className="text-2xl font-bold text-slate-800 tracking-tight">사업 관리</h2>
                     <p className="text-[14px] text-slate-400 font-medium mt-1">우리 기관에서 주관하는 지원 사업과 진단 프로젝트를 관리합니다.</p>
                 </div>
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-11 px-6 rounded-xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all">
+                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold h-11 px-6 rounded-xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all">
                     <Plus size={18} />
                     새 프로젝트 개설
                 </Button>
@@ -86,11 +86,11 @@ export default function AdminDemoProjects() {
                     />
                 </div>
                 <div className="flex items-center gap-2 w-full md:w-auto">
-                    <Button variant="outline" className="h-11 border-slate-200 text-slate-600 font-bold px-4 rounded-xl flex-1 md:flex-none">
+                    <Button variant="outline" className="h-11 border-slate-200 text-slate-600 font-semibold px-4 rounded-xl flex-1 md:flex-none">
                         <Filter size={16} className="mr-2" />
                         필터
                     </Button>
-                    <select className="h-11 bg-slate-50 border border-slate-100 rounded-xl px-4 text-[13px] font-bold text-slate-600 outline-none focus:ring-1 ring-indigo-500 flex-1 md:flex-none">
+                    <select className="h-11 bg-slate-50 border border-slate-100 rounded-xl px-4 text-[13px] font-semibold text-slate-600 outline-none focus:ring-1 ring-indigo-500 flex-1 md:flex-none">
                         <option>전체 상태</option>
                         <option>진행중</option>
                         <option>종료</option>
@@ -112,7 +112,7 @@ export default function AdminDemoProjects() {
                                     <Badge className={`
                                         ${project.status === '진행중' ? 'bg-indigo-600' : 
                                           project.status === '종료' ? 'bg-slate-400' : 'bg-emerald-500'} 
-                                        text-white border-none font-bold text-[10px] px-2.5 py-0.5 h-auto
+                                        text-white border-none font-semibold text-[10px] px-2.5 py-0.5 h-auto
                                     `}>
                                         {project.status}
                                     </Badge>
@@ -127,7 +127,7 @@ export default function AdminDemoProjects() {
                                         <span className="text-slate-300 text-xs font-bold">•</span>
                                         <span className="text-slate-400 text-[11px] font-bold uppercase tracking-wider">ID: PJ-{1000 + Number(project.id)}</span>
                                     </div>
-                                    <h3 className="text-[18px] font-black text-slate-800 tracking-tight group-hover:text-indigo-600 transition-colors truncate">
+                                    <h3 className="text-[18px] font-bold text-slate-800 tracking-tight group-hover:text-indigo-600 transition-colors truncate">
                                         {project.name}
                                     </h3>
                                     <div className="flex items-center gap-4 mt-3 text-slate-500">
@@ -144,20 +144,20 @@ export default function AdminDemoProjects() {
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Companies</p>
                                         <div className="flex items-center justify-center md:justify-start gap-1.5">
                                             <Users size={14} className="text-slate-300" />
-                                            <span className="text-[15px] font-black text-slate-700">{project.companies}</span>
+                                            <span className="text-[15px] font-bold text-slate-700">{project.companies}</span>
                                         </div>
                                     </div>
                                     <div className="text-center md:text-left">
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Diagnoses</p>
                                         <div className="flex items-center justify-center md:justify-start gap-1.5">
                                             <ClipboardCheck size={14} className="text-slate-300" />
-                                            <span className="text-[15px] font-black text-slate-700">{project.diagnoses}</span>
+                                            <span className="text-[15px] font-bold text-slate-700">{project.diagnoses}</span>
                                         </div>
                                     </div>
                                     <div className="text-center md:text-left">
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Avg Score</p>
                                         <div className="flex items-center justify-center md:justify-start gap-1">
-                                            <span className="text-[18px] font-black text-indigo-600 leading-none">{project.avgScore}</span>
+                                            <span className="text-[18px] font-bold text-indigo-600 leading-none">{project.avgScore}</span>
                                             <span className="text-[10px] font-bold text-indigo-300 mt-1">PT</span>
                                         </div>
                                     </div>

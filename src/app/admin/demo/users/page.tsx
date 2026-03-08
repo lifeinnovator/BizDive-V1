@@ -80,15 +80,15 @@ export default function AdminDemoUsers() {
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">사용자 관리</h2>
+                    <h2 className="text-2xl font-bold text-slate-800 tracking-tight">사용자 관리</h2>
                     <p className="text-[14px] text-slate-400 font-medium mt-1">기관 소속 멤버들과 지원 사업에 참여 중인 기업 관계자 목록입니다.</p>
                 </div>
                 <div className="flex items-center gap-2">
-                     <Button variant="outline" className="h-11 px-5 border-slate-200 text-slate-600 font-bold rounded-xl flex items-center gap-2">
+                     <Button variant="outline" className="h-11 px-5 border-slate-200 text-slate-600 font-semibold rounded-xl flex items-center gap-2">
                         <Download size={16} />
                         엑셀 다운로드
                     </Button>
-                    <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-11 px-6 rounded-xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all">
+                    <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold h-11 px-6 rounded-xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all">
                         <UserPlus size={18} />
                         멤버 초대하기
                     </Button>
@@ -103,7 +103,7 @@ export default function AdminDemoUsers() {
                     </div>
                     <div className="relative z-10">
                         <p className="text-indigo-100 text-[12px] font-bold uppercase tracking-widest mb-1.5 opacity-80">전체 소속 사용자</p>
-                        <h3 className="text-3xl font-black">142<span className="text-sm font-bold ml-1 text-indigo-200">명</span></h3>
+                        <h3 className="text-3xl font-bold">142<span className="text-sm font-bold ml-1 text-indigo-200">명</span></h3>
                         <div className="flex items-center gap-2 mt-4 text-[11px] font-bold py-1 px-3 bg-white/10 rounded-full w-fit">
                             <ArrowUpRight size={12} className="text-emerald-300" />
                             <span>최근 7일간 12명 가입</span>
@@ -114,7 +114,7 @@ export default function AdminDemoUsers() {
                 <Card className="border-none shadow-sm bg-white p-6 rounded-2xl flex flex-col justify-between">
                      <div>
                         <p className="text-slate-400 text-[12px] font-bold uppercase tracking-widest mb-1.5">활성 기업 관리자</p>
-                        <h3 className="text-3xl font-black text-slate-800">128<span className="text-sm font-bold ml-1 text-slate-400">사</span></h3>
+                        <h3 className="text-3xl font-bold text-slate-800">128<span className="text-sm font-bold ml-1 text-slate-400">사</span></h3>
                     </div>
                     <div className="w-full bg-slate-100 h-1.5 rounded-full mt-4 overflow-hidden">
                         <div className="bg-indigo-500 h-full w-[85%] rounded-full"></div>
@@ -124,7 +124,7 @@ export default function AdminDemoUsers() {
                 <Card className="border-none shadow-sm bg-white p-6 rounded-2xl flex flex-col justify-between">
                     <div>
                         <p className="text-slate-400 text-[12px] font-bold uppercase tracking-widest mb-1.5">미응답 기업</p>
-                        <h3 className="text-3xl font-black text-rose-500">14<span className="text-sm font-bold ml-1 text-slate-400">사</span></h3>
+                        <h3 className="text-3xl font-bold text-rose-500">14<span className="text-sm font-bold ml-1 text-slate-400">사</span></h3>
                     </div>
                     <p className="text-[11px] text-slate-500 font-medium mt-4">진단 요청 후 5일 이상 경과된 기업</p>
                 </Card>
@@ -144,7 +144,7 @@ export default function AdminDemoUsers() {
                         <Button variant="outline" className="h-11 px-4 border-slate-100 text-slate-400 bg-slate-50/50">
                             <Filter size={16} />
                         </Button>
-                        <select className="h-11 bg-slate-50 border-none rounded-xl px-4 text-[13px] font-bold text-slate-600 outline-none min-w-[140px]">
+                        <select className="h-11 bg-slate-50 border-none rounded-xl px-4 text-[13px] font-semibold text-slate-600 outline-none min-w-[140px]">
                             <option>전체 권한</option>
                             <option>기관 관리자</option>
                             <option>기업 관리자</option>
@@ -155,7 +155,7 @@ export default function AdminDemoUsers() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-slate-50/30 text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                            <tr className="bg-slate-50/30 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                                 <th className="px-8 py-4">Full Name / Profile</th>
                                 <th className="px-8 py-4">Company</th>
                                 <th className="px-8 py-4">Status / Records</th>
@@ -168,7 +168,7 @@ export default function AdminDemoUsers() {
                                 <tr key={user.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer">
                                     <td className="px-8 py-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 font-black text-xs">
+                                            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 font-bold text-xs">
                                                 {user.name.charAt(0)}
                                             </div>
                                             <div>
@@ -202,7 +202,7 @@ export default function AdminDemoUsers() {
                                     </td>
                                     <td className="px-8 py-4 text-right">
                                         <div className="flex items-center justify-end gap-1.5">
-                                            <span className={`text-[16px] font-black ${user.avgScore >= 80 ? 'text-indigo-600' : user.avgScore > 0 ? 'text-slate-700' : 'text-slate-300'}`}>
+                                            <span className={`text-[16px] font-bold ${user.avgScore >= 80 ? 'text-indigo-600' : user.avgScore > 0 ? 'text-slate-700' : 'text-slate-300'}`}>
                                                 {user.avgScore > 0 ? user.avgScore : '-'}
                                             </span>
                                             {user.avgScore > 0 && <span className="text-[10px] font-bold text-slate-300">PT</span>}

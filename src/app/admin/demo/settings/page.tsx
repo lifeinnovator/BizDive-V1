@@ -7,7 +7,6 @@ import {
     Lock, 
     Eye, 
     Database, 
-    Global, 
     Monitor,
     Shield,
     Smartphone,
@@ -27,10 +26,10 @@ export default function AdminDemoSettings() {
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">시스템 설정</h2>
+                    <h2 className="text-2xl font-bold text-slate-800 tracking-tight">시스템 설정</h2>
                     <p className="text-[14px] text-slate-400 font-medium mt-1">기관 정보, 알림 설정 및 플랫폼 환경을 관리합니다.</p>
                 </div>
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-11 px-8 rounded-xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all">
+                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold h-11 px-8 rounded-xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all">
                     <Save size={18} />
                     변경사항 저장
                 </Button>
@@ -62,22 +61,22 @@ export default function AdminDemoSettings() {
                     {/* Institution Profile */}
                     <Card className="border-none shadow-sm rounded-3xl overflow-hidden p-2">
                         <CardHeader className="px-6 pt-6 pb-2">
-                            <CardTitle className="text-lg font-black text-slate-800">기관 프로필</CardTitle>
+                            <CardTitle className="text-lg font-bold text-slate-800">기관 프로필</CardTitle>
                             <CardDescription className="text-slate-400 text-[13px] font-medium">데모 기관의 기본 정보를 확인하거나 수정합니다.</CardDescription>
                         </CardHeader>
                         <CardContent className="px-6 pb-8 space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">기관명</label>
+                                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-1">기관명</label>
                                     <Input defaultValue="BizDive 데모 주관기관" className="h-11 bg-slate-50 border-none rounded-xl font-bold" />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">대표 연락처</label>
+                                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-1">대표 연락처</label>
                                     <Input defaultValue="02-1234-5678" className="h-11 bg-slate-50 border-none rounded-xl font-bold" />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">기관 로고 (다크 모드용)</label>
+                                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-1">기관 로고 (다크 모드용)</label>
                                 <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
                                     <div className="w-16 h-16 bg-white rounded-xl border border-slate-100 flex items-center justify-center text-slate-300">
                                         <Building size={32} />
@@ -94,7 +93,7 @@ export default function AdminDemoSettings() {
                     {/* Platform Options */}
                     <Card className="border-none shadow-sm rounded-3xl overflow-hidden p-2">
                         <CardHeader className="px-6 pt-6 pb-2">
-                            <CardTitle className="text-lg font-black text-slate-800">플랫폼 기능 활성화</CardTitle>
+                            <CardTitle className="text-lg font-bold text-slate-800">플랫폼 기능 활성화</CardTitle>
                         </CardHeader>
                         <CardContent className="px-6 pb-8 divide-y divide-slate-50">
                             <div className="py-4 flex items-center justify-between">

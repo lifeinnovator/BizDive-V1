@@ -34,11 +34,13 @@ interface NavItem {
     icon: React.ElementType;
 }
 
+const BASE_URL = 'https://bizdive.kr';
+
 const navItems: NavItem[] = [
-    { name: '대시보드', href: '/admin/demo', icon: LayoutGrid },
-    { name: '사업관리', href: '/admin/demo/projects', icon: Briefcase },
-    { name: '사용자 관리', href: '/admin/demo/users', icon: Users2 },
-    { name: '시스템 설정', href: '/admin/demo/settings', icon: Settings },
+    { name: '대시보드', href: `${BASE_URL}/admin/demo`, icon: LayoutGrid },
+    { name: '사업관리', href: `${BASE_URL}/admin/demo/projects`, icon: Briefcase },
+    { name: '사용자 관리', href: `${BASE_URL}/admin/demo/users`, icon: Users2 },
+    { name: '시스템 설정', href: `${BASE_URL}/admin/demo/settings`, icon: Settings },
 ];
 
 export default function AdminDemoLayout({
@@ -60,9 +62,9 @@ export default function AdminDemoLayout({
                 {/* Sidebar Header */}
                 <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100">
                     {!isCollapsed && (
-                        <Link href="/admin/demo" className="flex items-center gap-2.5">
+                        <Link href="https://bizdive.kr/admin/demo" className="flex items-center gap-2.5">
                             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-200">
-                                <span className="text-white text-[10px] font-black tracking-tighter">BD</span>
+                                <span className="text-white text-[10px] font-bold tracking-tighter">BD</span>
                             </div>
                             <span className="text-sm font-bold tracking-tight text-slate-800">
                                 BizDive
@@ -72,7 +74,7 @@ export default function AdminDemoLayout({
                     )}
                     {isCollapsed && (
                          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center mx-auto">
-                            <span className="text-white text-[10px] font-black tracking-tighter">BD</span>
+                            <span className="text-white text-[10px] font-bold tracking-tighter">BD</span>
                         </div>
                     )}
                     <button
@@ -109,13 +111,13 @@ export default function AdminDemoLayout({
 
                 {/* Sidebar Footer */}
                 <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-                    <Link 
-                        href="/" 
+                    <a 
+                        href="https://bizdive.kr/" 
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-500 hover:bg-white hover:text-indigo-600 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all group"
                     >
                         <LogOut size={16} />
                         {!isCollapsed && <span className="text-[12px] font-bold">데모 종료하기</span>}
-                    </Link>
+                    </a>
                 </div>
             </aside>
 

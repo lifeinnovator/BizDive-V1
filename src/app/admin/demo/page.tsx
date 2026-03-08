@@ -64,15 +64,15 @@ export default function AdminDemoDashboard() {
             {/* Dashboard Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">대시보드 개요</h2>
+                    <h2 className="text-2xl font-bold text-slate-800 tracking-tight">대시보드 개요</h2>
                     <p className="text-[14px] text-slate-400 font-medium mt-1">우리 기관의 기업 경영 진단 현황을 한눈에 파악하세요.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Button variant="outline" className="h-10 text-[13px] font-bold border-slate-200 text-slate-600 rounded-xl">
+                    <Button variant="outline" className="h-10 text-[13px] font-semibold border-slate-200 text-slate-600 rounded-xl">
                         <Calendar size={14} className="mr-2" />
                         2026년 상반기
                     </Button>
-                    <Button className="h-10 text-[13px] font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-100">
+                    <Button className="h-10 text-[13px] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-100">
                         리포트 내보내기
                     </Button>
                 </div>
@@ -97,8 +97,8 @@ export default function AdminDemoDashboard() {
                                 12%
                             </span>
                         </div>
-                        <p className="text-[13px] font-bold text-slate-400">{stat.name}</p>
-                        <h3 className="text-2xl font-black text-slate-800 mt-1">{stat.value}</h3>
+                        <p className="text-[13px] font-semibold text-slate-400">{stat.name}</p>
+                        <h3 className="text-2xl font-bold text-slate-800 mt-1">{stat.value}</h3>
                     </motion.div>
                 ))}
             </div>
@@ -140,12 +140,12 @@ export default function AdminDemoDashboard() {
                             </div>
 
                             {/* Dimensions Text labels around the radar */}
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 text-[11px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">D1: 시장 분석</div>
-                            <div className="absolute top-1/4 right-0 text-[11px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">D2: 문제 정의</div>
-                            <div className="absolute bottom-1/4 right-0 text-[11px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">D3: 해결 가치</div>
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[11px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">D4: 실행 역량</div>
-                            <div className="absolute bottom-1/4 left-0 text-[11px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">D5: 기술 성숙</div>
-                            <div className="absolute top-1/4 left-0 text-[11px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">D6: 수익 모델</div>
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 text-[11px] font-bold text-slate-600 uppercase tracking-widest whitespace-nowrap">D1: 시장 분석</div>
+                            <div className="absolute top-1/4 right-0 text-[11px] font-bold text-slate-600 uppercase tracking-widest whitespace-nowrap">D2: 문제 정의</div>
+                            <div className="absolute bottom-1/4 right-0 text-[11px] font-bold text-slate-600 uppercase tracking-widest whitespace-nowrap">D3: 해결 가치</div>
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[11px] font-bold text-slate-600 uppercase tracking-widest whitespace-nowrap">D4: 실행 역량</div>
+                            <div className="absolute bottom-1/4 left-0 text-[11px] font-bold text-slate-600 uppercase tracking-widest whitespace-nowrap">D5: 기술 성숙</div>
+                            <div className="absolute top-1/4 left-0 text-[11px] font-bold text-slate-600 uppercase tracking-widest whitespace-nowrap">D6: 수익 모델</div>
                             
                             {/* Visual Hint about the chart */}
                             <div className="absolute inset-0 flex items-center justify-center">
@@ -161,7 +161,7 @@ export default function AdminDemoDashboard() {
                 <Card className="border-none shadow-sm rounded-2xl overflow-hidden flex flex-col">
                     <CardHeader className="bg-white border-b border-slate-50 pb-5 pt-6 px-6">
                         <div className="flex items-center justify-between">
-                            <CardTitle className="text-sm font-black text-slate-800">실시간 진단 현황</CardTitle>
+                            <CardTitle className="text-sm font-bold text-slate-800">실시간 진단 현황</CardTitle>
                             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/50"></span>
                         </div>
                     </CardHeader>
@@ -197,7 +197,7 @@ export default function AdminDemoDashboard() {
             {/* Programs/Projects Summary Table */}
             <Card className="border-none shadow-sm rounded-2xl overflow-hidden">
                 <CardHeader className="bg-white border-b border-slate-50 pb-5 pt-6 px-8">
-                    <CardTitle className="text-sm font-black text-slate-800 flex items-center gap-2">
+                    <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
                         <Briefcase size={16} className="text-indigo-600" />
                         참여 사업별 요약 리포트
                     </CardTitle>
@@ -232,7 +232,7 @@ export default function AdminDemoDashboard() {
                                     </td>
                                     <td className="px-8 py-5 text-right">
                                         <div className="flex items-center justify-end gap-1.5">
-                                            <span className="text-[16px] font-black text-slate-800">{project.avg}</span>
+                                            <span className="text-[16px] font-bold text-slate-800">{project.avg}</span>
                                             <span className="text-[10px] font-bold text-slate-300">PT</span>
                                         </div>
                                     </td>

@@ -55,7 +55,7 @@ const NavigationBar = () => {
                                 </a>
                             )}
                             {userRole === 'group_admin' && (
-                                <a href="https://admin.bizdive.kr/admin" className="text-[13px] sm:text-[15px] font-bold text-indigo-600 hover:text-indigo-900 transition-colors">
+                                <a href="https://bizdive.kr/admin/demo" className="text-[13px] sm:text-[15px] font-bold text-indigo-600 hover:text-indigo-900 transition-colors">
                                     기관 관리
                                 </a>
                             )}
@@ -190,11 +190,11 @@ const UserPathSelection = () => {
                                 데이터 기반의 스마트한 지원 체계를 경험하세요.
                             </p>
                         </div>
-                        <a href="https://admin.bizdive.kr/admin/demo" className="mt-auto">
+                        <Link href="https://bizdive.kr/admin/demo" className="mt-auto">
                             <Button variant="outline" className="font-bold border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900 h-12 px-6 w-full sm:w-auto mt-4 rounded-none">
                                 관리자 데모 체험하기 (PC전용)
                             </Button>
-                        </a>
+                        </Link>
                         <p className="text-[12px] text-slate-400 mt-3 font-medium">
                             * PC 환경에서의 작업에 최적화되어 있습니다.
                         </p>
