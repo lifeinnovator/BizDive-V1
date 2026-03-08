@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
 
     // Skip auth check for guest-accessible routes
-    const isGuestRoute = pathname.startsWith('/diagnosis') || pathname.startsWith('/report/preview')
+    const isGuestRoute = pathname.startsWith('/diagnosis') || pathname.startsWith('/report/preview') || pathname.startsWith('/admin/demo')
 
     if (isGuestRoute) {
         return supabaseResponse
