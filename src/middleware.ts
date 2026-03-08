@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
 
     // 0. Redirect old/relative admin demo path to absolute URL
-    if (pathname === '/admin/demo') {
+    if (pathname === '/admin/demo' || pathname === '/admin/demo/') {
         return NextResponse.redirect('https://admin.bizdive.kr/admin/demo')
     }
 
