@@ -79,6 +79,22 @@ export default function ConsultationApplyPage() {
 
             if (error) throw error
 
+            // Trigger Email Notification (Background task)
+            fetch('/api/consultation/notify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    record: {
+                        company_name: values.companyName,
+                        contact_name: values.contactName,
+                        contact_phone: values.contactPhone,
+                        contact_email: values.contactEmail,
+                        topics: values.topics,
+                        message: values.message,
+                    }
+                }),
+            }).catch(err => console.error('Notification failed:', err));
+
             setIsSuccess(true)
         } catch (error) {
             console.error('Error submitting consultation request:', error)
