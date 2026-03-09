@@ -16,13 +16,13 @@ interface GrowthAnalysisProps {
 }
 
 const DIMENSION_KR: Record<string, string> = {
-    D1: '경영전략/리더십',
+    D1: '시장 기회',
     D2: '비즈니스 모델',
-    D4: '조직/인사',
-    D3: '마케팅/영업',
-    D5: '기술/R&D',
-    D6: '재무/자금',
-    D7: '경영/ESG'
+    D3: '해결 전략',
+    D4: '조직 역량',
+    D5: '기술력/성장성',
+    D6: '재무 건전성',
+    D7: '경영 관리'
 }
 
 export default function GrowthAnalysis({ current, previous, maxScores }: GrowthAnalysisProps) {
