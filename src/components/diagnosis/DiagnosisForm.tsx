@@ -41,6 +41,7 @@ export default function DiagnosisForm({
 }: DiagnosisFormProps) {
     const router = useRouter()
     const [answers, setAnswers] = useState<Record<string, boolean>>({})
+    const [currentStep, setCurrentStep] = useState(0)
 
     const searchParams = useSearchParams()
 
@@ -111,14 +112,26 @@ export default function DiagnosisForm({
         }))
     }
 
+    const handleNextStep = () => {
+        if (currentStep < sections.length - 1) {
+            setCurrentStep(prev => prev + 1)
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+    }
+
+    const handlePrevStep = () => {
+        if (currentStep > 0) {
+            setCurrentStep(prev => prev - 1)
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+    }
+
     const handleViewReport = async () => {
         if (totalScore === 0) {
             alert('최소 1개 이상의 문항에 응답해주세요.')
             return
         }
 
-        // Auto-save the record to capture "Unregistered Users" as requested
-        // Or to capture registered users' tests even if they forget to click "save" on the next screen.
         let newRecordId: string | null = null;
         try {
             const { createClient } = await import('@/lib/supabase');
@@ -150,7 +163,6 @@ export default function DiagnosisForm({
             console.error("Failed to auto-save diagnosis:", err);
         }
 
-        // Save diagnosis data to sessionStorage for the preview page
         const previewData = {
             answers,
             totalScore,
@@ -161,7 +173,7 @@ export default function DiagnosisForm({
             userId,
             round,
             projectId,
-            recordId: newRecordId // pass the ID to preview page so it can update instead of insert
+            recordId: newRecordId 
         }
         sessionStorage.setItem('bizdive_report_preview', JSON.stringify(previewData))
         router.push('/report/preview')
@@ -170,8 +182,11 @@ export default function DiagnosisForm({
     const today = new Date();
     const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
 
+    const currentSection = sections[currentStep]
+    const isLastStep = currentStep === sections.length - 1
+
     return (
-        <div className="min-h-screen bg-slate-50/50">
+        <div className="min-h-screen bg-slate-50/50 flex flex-col">
 
             {/* Focus Header */}
             <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
@@ -208,63 +223,83 @@ export default function DiagnosisForm({
                 </div>
             </header>
 
-            <main className="max-w-3xl mx-auto px-4 py-12 pb-32">
-                <div className="space-y-12">
-                    {/* 진단 안내 */}
-                    <div className="bg-slate-50 border border-slate-200 p-8 rounded-2xl">
-                        <h2 className="text-xl font-bold text-slate-900 mb-4">진단 안내</h2>
-                        <p className="text-slate-600 text-[14px] leading-relaxed mb-3">
-                            본 기업현황 자가진단은 서비스 디자인 방법론(Double Diamond)과 PSST 사업계획 방법론, 전략컨설팅 프레임워크 방법론 등을 융합하여 설계된 고도화된 경영 진단 도구입니다. 시장 기회 탐색부터 사업성 검증까지 7가지 핵심 영역을 입체적으로 정밀 분석합니다.
-                        </p>
-                        <p className="text-slate-600 text-[14px] leading-relaxed mb-6">
-                            이를 통해 기업은 현재의 성장 단계를 명확히 인지하고, 다음 단계로 도약하기 위한 구체적인 실행 전략을 수립할 수 있습니다.
-                        </p>
-                        <div className="flex flex-wrap justify-between items-center text-[13px] text-slate-500 border-t border-slate-200 pt-4">
-                            <span className="font-semibold">※ 총 {questions.length}문항 (100점 만점)</span>
-                            <span className="text-slate-400">(항목 중요도에 따라 1.0~2.0점 배점 자동 적용)</span>
-                        </div>
-                    </div>
-
-                    {/* Questions Grouped by Sections */}
-                    <div className="space-y-16">
-                        {sections.map((section, idx) => (
-                            <div key={section.id} className="animate-fade-in">
-                                <QuestionSection
-                                    section={section}
-                                    sectionIndex={idx}
-                                    answers={answers}
-                                    onAnswerChange={handleAnswerChange}
-                                />
+            {/* Progress Indicator */}
+            <div className="bg-white border-b border-slate-100">
+                <div className="max-w-3xl mx-auto px-4 py-4">
+                    <div className="flex items-center justify-between gap-2">
+                        {sections.map((sec, idx) => (
+                            <div key={sec.id} className="flex-1 flex flex-col items-center gap-2">
+                                <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${
+                                    idx < currentStep ? 'bg-indigo-600' :
+                                    idx === currentStep ? 'bg-indigo-500' : 'bg-slate-200'
+                                }`} />
+                                <span className={`text-[10px] font-bold ${
+                                    idx <= currentStep ? 'text-indigo-600' : 'text-slate-400'
+                                }`}>
+                                    {sec.id}
+                                </span>
                             </div>
                         ))}
                     </div>
+                </div>
+            </div>
 
-                    {/* Completion Action */}
-                    <div className="pt-12 border-t border-slate-200">
-                        <div className="bg-slate-900 rounded-[2.5rem] p-6 text-center text-white relative overflow-hidden shadow-2xl shadow-slate-200">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                            <div className="relative z-10 max-w-md mx-auto">
-                                <div className="inline-flex items-center justify-center w-12 h-12 bg-white/10 rounded-full mb-4 backdrop-blur-sm border border-white/10">
-                                    <CheckCircle2 size={24} className="text-indigo-400" />
-                                </div>
-                                <h3 className="text-xl font-bold mb-2 tracking-tight">진단 체크를 완료하셨나요?</h3>
-                                <p className="text-slate-400 text-sm font-medium opacity-90 mb-5 leading-relaxed">
-                                    진솔한 의견이 특별한 기업진단을 제공합니다.<br />
-                                    7D 심층 분석 리포트를 확인하세요.
-                                </p>
+            <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-8 sm:py-12 pb-32">
+                <div className="space-y-8 animate-fade-in-up" key={currentStep}>
+                        {/* Chapter Title */}
+                        <div className="bg-white border border-slate-100 p-8 sm:p-10 rounded-3xl shadow-soft">
+                            <div className="inline-flex items-center justify-center bg-indigo-50 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
+                                Chapter {currentStep + 1} of {sections.length}
+                            </div>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4 tracking-tight">
+                                {currentSection.title}
+                            </h2>
+                            <p className="text-slate-500 text-base leading-relaxed">
+                                {currentSection.desc}
+                            </p>
+                        </div>
+
+                        {/* Questions */}
+                        <div>
+                            <QuestionSection
+                                section={currentSection}
+                                sectionIndex={currentStep}
+                                answers={answers}
+                                onAnswerChange={handleAnswerChange}
+                            />
+                        </div>
+
+                        {/* Navigation Actions */}
+                        <div className="flex items-center justify-between pt-8">
+                            <Button
+                                variant="outline"
+                                onClick={handlePrevStep}
+                                disabled={currentStep === 0}
+                                className="rounded-xl px-6 py-6 font-semibold border-slate-200 text-slate-600 hover:bg-slate-50"
+                            >
+                                이전 단계
+                            </Button>
+
+                            {!isLastStep ? (
+                                <Button
+                                    onClick={handleNextStep}
+                                    className="rounded-xl px-8 py-6 bg-slate-900 text-white font-semibold hover:bg-slate-800 shadow-lg shadow-slate-200"
+                                >
+                                    다음 단계로
+                                </Button>
+                            ) : (
                                 <Button
                                     onClick={handleViewReport}
                                     disabled={Object.keys(answers).length === 0}
-                                    className="w-full h-14 bg-white text-slate-900 hover:bg-slate-100 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-black/10"
+                                    className="rounded-xl px-8 py-6 bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all"
                                 >
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-2">
                                         <CheckCircle2 size={20} />
-                                        심층 진단 리포트 확인하기
+                                        진단 완료 & 리포트 확인
                                     </div>
                                 </Button>
-                            </div>
+                            )}
                         </div>
-                    </div>
                 </div>
             </main>
         </div>

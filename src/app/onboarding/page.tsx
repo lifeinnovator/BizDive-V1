@@ -128,19 +128,19 @@ export default function OnboardingPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md relative">
+        <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-16 sm:px-6 lg:px-8 animate-fade-in">
+            <div className="sm:mx-auto sm:w-full sm:max-w-xl relative">
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => router.back()}
-                    className="absolute top-0 left-0 -ml-12 md:-ml-0"
+                    className="absolute top-0 left-0 -ml-2 sm:-ml-12 hover:bg-slate-200/50 rounded-full transition-colors"
                 >
-                    <ArrowLeft className="h-6 w-6" />
+                    <ArrowLeft className="h-5 w-5 text-slate-500" />
                 </Button>
 
-                <div className="flex flex-col items-center">
-                    <div className="relative w-[259px] h-[86px] mb-2">
+                <div className="flex flex-col items-center mb-6 pt-2">
+                    <div className="relative w-[180px] h-[60px] mb-4">
                         <Image
                             src="/BizDive_Logo_Confirm.png"
                             alt="BizDive"
@@ -149,96 +149,124 @@ export default function OnboardingPage() {
                             priority
                         />
                     </div>
-                    <p className="-mt-2 text-center text-sm text-gray-600">
-                        {userType === 'auth' ? '기업 정보를 확인해주세요.' : '맞춤형 진단을 위해 기업 정보를 입력해 주세요.'}
+                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-1">
+                        기업 정보를 확인해주세요.
+                    </h2>
+                    <p className="text-sm text-slate-500 font-medium">
+                        전문적인 진단을 위해 기업 정보를 선택해 주세요.
                     </p>
                 </div>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="sm:mx-auto sm:w-full sm:max-w-md animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div className="bg-white py-8 px-6 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-8 border border-slate-100/60 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-50/50 rounded-full blur-3xl -mr-48 -mt-48 pointer-events-none"></div>
+                    
+                    <form className="space-y-6 relative z-10" onSubmit={handleSubmit}>
 
-                        <div>
-                            <label htmlFor="company_name" className="block text-sm font-medium text-gray-700">
-                                기업명 (Company Name) <span className="text-red-500">*</span>
+                        {/* Company Name */}
+                        <div className="space-y-2">
+                            <label htmlFor="company_name" className="block text-sm font-bold text-slate-700">
+                                기업명 <span className="text-indigo-500 ml-1">*</span>
                             </label>
-                            <div className="mt-1">
-                                <input
-                                    type="text"
-                                    name="company_name"
-                                    id="company_name"
-                                    required
-                                    value={formData.company_name}
-                                    onChange={handleChange}
-                                    placeholder="예: (주)비즈다이브"
-                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
-                                />
+                            <input
+                                type="text"
+                                name="company_name"
+                                id="company_name"
+                                required
+                                value={formData.company_name}
+                                onChange={handleChange}
+                                placeholder="예: (주)비즈다이브"
+                                className="block w-full rounded-lg border-slate-200 bg-slate-50/50 shadow-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all text-sm px-4 py-2.5 font-medium text-slate-900"
+                            />
+                        </div>
+
+                        {/* Optional Job Title */}
+                        <div className="space-y-2">
+                            <label htmlFor="user_title" className="block text-sm font-bold text-slate-700 flex items-center justify-between">
+                                직함 <span className="text-slate-400 font-normal text-xs bg-slate-100 px-2 py-0.5 rounded-full">선택</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="user_title"
+                                id="user_title"
+                                value={formData.user_title}
+                                onChange={handleChange}
+                                placeholder="예: 대표이사"
+                                className="block w-full rounded-lg border-slate-200 bg-slate-50/50 shadow-sm focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 focus:bg-white transition-all text-sm px-4 py-2.5 font-medium text-slate-900"
+                            />
+                        </div>
+
+                        <div className="h-px bg-slate-100 w-full" />
+
+                        {/* Growth Stage - Card Grid */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-bold text-slate-700">
+                                성장 단계 <span className="text-indigo-500 ml-1">*</span>
+                            </label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    { id: 'P', label: '예비창업', sub: 'Pre-Startup' },
+                                    { id: 'E', label: '초기창업', sub: '3년 이내' },
+                                    { id: 'V', label: '도약/벤처', sub: '7년 이내' },
+                                    { id: 'M', label: '중소/중견', sub: '8년 이상' },
+                                ].map((item) => (
+                                    <button
+                                        key={item.id}
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, stage: item.id })}
+                                        className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-lg border-2 transition-all duration-300 ${
+                                            formData.stage === item.id
+                                                ? 'border-indigo-600 bg-indigo-50/30 shadow-sm shadow-indigo-100 transform scale-[0.98]'
+                                                : 'border-slate-100 bg-white hover:border-indigo-200 hover:bg-slate-50 hover:scale-[1.02]'
+                                        }`}
+                                    >
+                                        <span className={`font-bold text-[13px] mb-0.5 ${formData.stage === item.id ? 'text-indigo-900' : 'text-slate-700'}`}>
+                                            {item.label}
+                                        </span>
+                                        <span className={`text-[10px] font-medium ${formData.stage === item.id ? 'text-indigo-600' : 'text-slate-400'}`}>
+                                            {item.sub}
+                                        </span>
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
-                        <div>
-                            <label htmlFor="user_title" className="block text-sm font-medium text-gray-700">
-                                직함 (Job Title) <span className="text-gray-400 font-normal">(선택)</span>
+                        {/* Industry - Card Grid */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-bold text-slate-700">
+                                산업 분야 <span className="text-indigo-500 ml-1">*</span>
                             </label>
-                            <div className="mt-1">
-                                <input
-                                    type="text"
-                                    name="user_title"
-                                    id="user_title"
-                                    value={formData.user_title}
-                                    onChange={handleChange}
-                                    placeholder="예: 대표이사"
-                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
-                                />
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    { id: 'I', label: 'IT/SW/SaaS' },
+                                    { id: 'H', label: '제조/하드웨어' },
+                                    { id: 'L', label: '로컬/서비스/F&B' },
+                                    { id: 'CT', label: '콘텐츠/IP' },
+                                ].map((item) => (
+                                    <button
+                                        key={item.id}
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, industry: item.id })}
+                                        className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-lg border-2 transition-all duration-300 ${
+                                            formData.industry === item.id
+                                                ? 'border-indigo-600 bg-indigo-50/30 shadow-sm shadow-indigo-100 transform scale-[0.98]'
+                                                : 'border-slate-100 bg-white hover:border-indigo-200 hover:bg-slate-50 hover:scale-[1.02]'
+                                        }`}
+                                    >
+                                        <span className={`font-bold text-[13px] ${formData.industry === item.id ? 'text-indigo-900' : 'text-slate-700'}`}>
+                                            {item.label}
+                                        </span>
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
-                        <div>
-                            <label htmlFor="stage" className="block text-sm font-medium text-gray-700">
-                                성장 단계 (Business Stage) <span className="text-red-500">*</span>
-                            </label>
-                            <div className="mt-1">
-                                <select
-                                    id="stage"
-                                    name="stage"
-                                    value={formData.stage}
-                                    onChange={handleChange}
-                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
-                                >
-                                    <option value="P">예비창업 (Pre-Startup)</option>
-                                    <option value="E">초기창업 3년 미만 (Early-Stage)</option>
-                                    <option value="V">도약기 3~7년 (Venture/Scale-up)</option>
-                                    <option value="M">중소/중견기업 (Mid-sized)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label htmlFor="industry" className="block text-sm font-medium text-gray-700">
-                                산업 분야 (Industry) <span className="text-red-500">*</span>
-                            </label>
-                            <div className="mt-1">
-                                <select
-                                    id="industry"
-                                    name="industry"
-                                    value={formData.industry}
-                                    onChange={handleChange}
-                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
-                                >
-                                    <option value="I">IT/SW/SaaS</option>
-                                    <option value="H">제조/하드웨어 (Manufacturing)</option>
-                                    <option value="L">로컬/서비스/F&B</option>
-                                    <option value="CT">콘텐츠/IP/지식서비스</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
+                        <div className="pt-2">
                             <button
                                 type="submit"
-                                disabled={loading}
-                                className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                                disabled={loading || !formData.company_name || !formData.stage || !formData.industry}
+                                className="flex w-full justify-center items-center rounded-lg border border-transparent bg-indigo-600 py-3 px-8 text-[15px] font-bold text-white shadow-md shadow-indigo-500/30 hover:bg-indigo-700 hover:shadow-indigo-500/40 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300"
                             >
                                 {loading ? (
                                     <>
@@ -252,6 +280,10 @@ export default function OnboardingPage() {
                         </div>
                     </form>
                 </div>
+            </div>
+            
+            <div className="mt-12 text-center pb-8 animate-fade-in">
+                 <p className="text-xs text-slate-400 font-medium">© 2026 BizDive. All rights reserved.</p>
             </div>
         </div>
     )
