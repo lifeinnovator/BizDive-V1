@@ -64,7 +64,18 @@ export default function DiagnosisHistoryList({ records, profileName, profileComp
                                     {record.total_score.toFixed(1)}<span className="text-xs font-normal text-gray-400 ml-0.5">점</span>
                                 </span>
                                 <span className={`mt-0.5 text-[9px] px-1.5 py-0.5 rounded-full font-medium ${record.total_score >= 80 ? 'bg-green-100 text-green-700' : record.total_score >= 50 ? 'bg-indigo-100 text-indigo-700' : 'bg-rose-100 text-rose-700'}`}>
-                                    Stage {record.stage_result}
+                                    Stage {(() => {
+                                        if (!record.stage_result) return '-';
+                                        if (record.stage_result.startsWith('{')) {
+                                            try {
+                                                const parsed = JSON.parse(record.stage_result);
+                                                return parsed.grade || record.stage_result;
+                                            } catch (e) {
+                                                return record.stage_result;
+                                            }
+                                        }
+                                        return record.stage_result;
+                                    })()}
                                 </span>
                             </div>
  

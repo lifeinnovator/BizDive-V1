@@ -223,7 +223,18 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                 <div>
                                     <div className="flex items-center gap-3 mb-2">
                                         <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 border-none text-xs">
-                                            Stage {record.stage_result}
+                                        Stage {(() => {
+                                            if (!record.stage_result) return '-';
+                                            if (record.stage_result.startsWith('{')) {
+                                                try {
+                                                    const parsed = JSON.parse(record.stage_result);
+                                                    return parsed.grade || record.stage_result;
+                                                } catch (e) {
+                                                    return record.stage_result;
+                                                }
+                                            }
+                                            return record.stage_result;
+                                        })()}
                                         </Badge>
                                         <Badge variant="outline" className="border-white/30 text-white hover:bg-white/10 text-xs">
                                             {profileStageLabel} | {profileIndustryLabel}
