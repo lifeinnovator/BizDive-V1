@@ -64,7 +64,7 @@ const NavigationBar = () => {
                             </Link>
                             <Link href="/auth/signup">
                                 <button className="bg-indigo-900 text-white px-4 py-2 rounded-full font-bold text-[13px] sm:text-[15px] hover:bg-slate-900 transition-all shadow-md">
-                                    시작하기
+                                    무료 진단 시작
                                 </button>
                             </Link>
                         </>
