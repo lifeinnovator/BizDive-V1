@@ -35,7 +35,8 @@ export default function AboutService() {
                         <h2 className="text-xl font-bold text-slate-900 mb-3">연락처 및 소재지</h2>
                         <ul className="list-disc pl-5 mt-2 space-y-1">
                             <li><strong>상호명:</strong> (주)큐브인스피레이션그룹 (Cube Inspiration Group., Co., Ltd)</li>
-                            <li><strong>대표이메일:</strong> life,innovator@gmail.com</li>
+                            <li><strong>대표이메일:</strong> admin@bizdive.kr</li>
+
                             <li><strong>고객센터:</strong> 평일 10:00 - 17:00 (주말 및 공휴일 휴무)</li>
                         </ul>
                     </section>

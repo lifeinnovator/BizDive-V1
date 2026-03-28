@@ -28,8 +28,9 @@ export async function POST(req: Request) {
         // If credentials are missing, log and simulate success (for now)
         if (!SMTP_USER || !SMTP_PASS) {
             console.warn('--- EMAIL NOTIFICATION SIMULATION (MISSING SMTP CREDENTIALS) ---');
-            console.log('To: life.innovator@gmail.com');
+            console.log('To: admin@bizdive.kr');
             console.log('Record:', record);
+
             return NextResponse.json({ success: true, simulated: true });
         }
 
@@ -58,7 +59,7 @@ export async function POST(req: Request) {
 
         const mailOptions = {
             from: `"BizDive Admin" <${SMTP_USER}>`,
-            to: 'life.innovator@gmail.com',
+            to: 'admin@bizdive.kr',
             subject: `[BizDive] 새로운 전문가 매칭 신청: ${company_name}`,
             text: `신규 상담 신청이 접수되었습니다.
 
