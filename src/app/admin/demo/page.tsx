@@ -17,8 +17,11 @@ import {
     Filter,
     ArrowDownRight,
     CheckCircle2,
-    Clock
+    Clock,
+    Layout,
+    FileEdit
 } from 'lucide-react';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -211,18 +214,20 @@ export default function AdminDemoDashboard() {
                     </Card>
 
                     <Card className="border-none shadow-sm rounded-[32px] overflow-hidden bg-indigo-600 p-8 text-white relative group cursor-pointer">
-                        <div className="absolute top-0 right-0 p-8 opacity-20 transform group-hover:scale-110 transition-transform">
-                            <FileSearch size={80} />
-                        </div>
-                        <div className="relative z-10">
-                            <h4 className="text-[13px] font-bold text-indigo-200 uppercase tracking-widest mb-2">Insight Recommendation</h4>
-                            <p className="text-[16px] font-bold leading-snug mb-6">
-                                '해결 가치' 영역의 평균 점수가 전월 대비 15% 하락했습니다. 해당 영역 보완을 위한 멘토링 프로그램 편성을 추천합니다.
-                            </p>
-                            <Button className="w-full bg-white text-indigo-600 hover:bg-indigo-50 font-bold rounded-2xl h-12 shadow-lg shadow-indigo-900/20">
-                                상세 분석 보기
-                            </Button>
-                        </div>
+                        <Link href="/admin/demo/reports">
+                            <div className="absolute top-0 right-0 p-8 opacity-20 transform group-hover:scale-110 transition-transform">
+                                <FileSearch size={80} />
+                            </div>
+                            <div className="relative z-10">
+                                <h4 className="text-[13px] font-bold text-indigo-200 uppercase tracking-widest mb-2">Insight Recommendation</h4>
+                                <p className="text-[16px] font-bold leading-snug mb-6">
+                                    '해결 가치' 영역의 평균 점수가 전월 대비 15% 하락했습니다. 해당 영역 보완을 위한 멘토링 프로그램 편성을 추천합니다.
+                                </p>
+                                <Button className="w-full bg-white text-indigo-600 hover:bg-indigo-50 font-bold rounded-2xl h-12 shadow-lg shadow-indigo-900/20">
+                                    결과 보고서 작성하기 (2-Depth)
+                                </Button>
+                            </div>
+                        </Link>
                     </Card>
                 </div>
             </div>
@@ -243,32 +248,34 @@ export default function AdminDemoDashboard() {
                     </CardHeader>
                     <div className="p-2">
                         {PROJECT_STATS.map((project, i) => (
-                            <div key={i} className="px-8 py-5 hover:bg-slate-50 transition-all cursor-pointer group flex items-center justify-between rounded-[24px]">
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <span className="text-[14px] font-bold text-slate-700 group-hover:text-indigo-600 transition-colors truncate">
-                                            {project.name}
-                                        </span>
-                                        {project.status === '완료' && <CheckCircle2 size={14} className="text-emerald-500" />}
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex-1 max-w-[120px] h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                            <div 
-                                                className={`h-full ${project.status === '완료' ? 'bg-emerald-500' : 'bg-indigo-600'} rounded-full`} 
-                                                style={{ width: `${(project.current / project.total) * 100}%` }}
-                                            ></div>
+                            <Link key={i} href="/admin/demo/projects">
+                                <div className="px-8 py-5 hover:bg-slate-50 transition-all cursor-pointer group flex items-center justify-between rounded-[24px]">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-[14px] font-bold text-slate-700 group-hover:text-indigo-600 transition-colors truncate">
+                                                {project.name}
+                                            </span>
+                                            {project.status === '완료' && <CheckCircle2 size={14} className="text-emerald-500" />}
                                         </div>
-                                        <span className="text-[11px] font-bold text-slate-400">{project.current} / {project.total}개 기업 완료</span>
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex-1 max-w-[120px] h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                <div 
+                                                    className={`h-full ${project.status === '완료' ? 'bg-emerald-500' : 'bg-indigo-600'} rounded-full`} 
+                                                    style={{ width: `${(project.current / project.total) * 100}%` }}
+                                                ></div>
+                                            </div>
+                                            <span className="text-[11px] font-bold text-slate-400">{project.current} / {project.total}개 기업 완료</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-4 ml-6 sm:ml-12 min-w-[70px] justify-end">
+                                        <div className="text-right">
+                                            <div className="text-[16px] font-black text-slate-800">{project.avg}</div>
+                                            <div className="text-[9px] font-bold text-slate-300 uppercase leading-none">Avg Score</div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-slate-200 group-hover:text-indigo-400 transition-colors" />
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4 ml-6 sm:ml-12 min-w-[70px] justify-end">
-                                    <div className="text-right">
-                                        <div className="text-[16px] font-black text-slate-800">{project.avg}</div>
-                                        <div className="text-[9px] font-bold text-slate-300 uppercase leading-none">Avg Score</div>
-                                    </div>
-                                    <ChevronRight size={16} className="text-slate-200 group-hover:text-indigo-400 transition-colors" />
-                                </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </Card>

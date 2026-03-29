@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { 
     LayoutGrid, 
     Briefcase, 
+    ClipboardCheck, 
+    FileEdit,
     Users2, 
     Settings, 
     ChevronLeft, 
@@ -14,7 +16,8 @@ import {
     Bell,
     User,
     ChevronDown,
-    Search
+    Search,
+    ArrowLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -34,13 +37,13 @@ interface NavItem {
     icon: React.ElementType;
 }
 
-const BASE_URL = 'https://bizdive.kr';
-
 const navItems: NavItem[] = [
-    { name: '대시보드', href: `${BASE_URL}/admin/demo`, icon: LayoutGrid },
-    { name: '사업관리', href: `${BASE_URL}/admin/demo/projects`, icon: Briefcase },
-    { name: '사용자 관리', href: `${BASE_URL}/admin/demo/users`, icon: Users2 },
-    { name: '시스템 설정', href: `${BASE_URL}/admin/demo/settings`, icon: Settings },
+    { name: '사업 운영 대시보드', href: `/admin/demo`, icon: LayoutGrid },
+    { name: '사업 통합 관리', href: `/admin/demo/projects`, icon: Briefcase },
+    { name: '사업별 진단 현황', href: `/admin/demo/diagnosis`, icon: ClipboardCheck },
+    { name: '사업 결과 보고 관리', href: `/admin/demo/reports`, icon: FileEdit },
+    { name: '기업/사용자 관리', href: `/admin/demo/users`, icon: Users2 },
+    { name: '운영자 설정', href: `/admin/demo/settings`, icon: Settings },
 ];
 
 export default function AdminDemoLayout({
@@ -110,14 +113,20 @@ export default function AdminDemoLayout({
                 </nav>
 
                 {/* Sidebar Footer */}
-                <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-                    <a 
-                        href="https://bizdive.kr/" 
-                        className="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-500 hover:bg-white hover:text-indigo-600 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all group"
+                <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-2">
+                    <Link
+                        href="/" 
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-white hover:text-indigo-600 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all group"
                     >
-                        <LogOut size={16} />
-                        {!isCollapsed && <span className="text-[12px] font-bold">데모 종료하기</span>}
-                    </a>
+                        <ArrowLeft size={16} />
+                        {!isCollapsed && <span className="text-[12px] font-bold">사용자 화면 가기</span>}
+                    </Link>
+                    <div className="px-3 py-1 flex items-center justify-between">
+                         {!isCollapsed && <span className="text-[10px] font-bold text-slate-300 uppercase tracking-tighter">Admin v1.0.0</span>}
+                         <button className="text-slate-300 hover:text-slate-500 transition-colors">
+                             <LogOut size={14} />
+                         </button>
+                    </div>
                 </div>
             </aside>
 
@@ -129,7 +138,7 @@ export default function AdminDemoLayout({
                         <Search size={16} className="text-slate-400" />
                         <input 
                             type="text" 
-                            placeholder="기업명 혹은 프로젝트 검색..." 
+                            placeholder="메뉴, 데이터 검색..." 
                             className="bg-transparent border-none outline-none text-[13px] w-full placeholder:text-slate-400 text-slate-600 font-medium"
                             disabled
                         />
@@ -145,8 +154,8 @@ export default function AdminDemoLayout({
 
                         <div className="flex items-center gap-3">
                             <div className="text-right hidden sm:block">
-                                <p className="text-[13px] font-bold text-slate-800 leading-none">데모 사용자</p>
-                                <p className="text-[11px] font-medium text-slate-400 mt-1 uppercase tracking-wider">주관기관 관리자</p>
+                                <p className="text-[13px] font-bold text-slate-800 leading-none tracking-tight">Test Institution Admin</p>
+                                <p className="text-[11px] font-medium text-slate-400 mt-1 uppercase tracking-wider">BizDive Test Institution</p>
                             </div>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
