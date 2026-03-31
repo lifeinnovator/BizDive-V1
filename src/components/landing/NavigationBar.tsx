@@ -59,10 +59,10 @@ const NavigationBar = () => {
                         </>
                     ) : (
                         <>
-                            <Link href="/auth/login" className="text-[13px] sm:text-[15px] font-bold text-slate-500 hover:text-indigo-900 transition-colors">
+                            <Link href="/login" className="text-[13px] sm:text-[15px] font-bold text-slate-500 hover:text-indigo-900 transition-colors">
                                 로그인
                             </Link>
-                            <Link href="/auth/signup">
+                            <Link href="/onboarding">
                                 <button className="bg-indigo-900 text-white px-4 py-2 rounded-full font-bold text-[13px] sm:text-[15px] hover:bg-slate-900 transition-all shadow-md">
                                     무료 진단 시작
                                 </button>

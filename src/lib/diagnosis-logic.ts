@@ -14,12 +14,26 @@ export async function getDiagnosisQuestions(profile: DiagnosisCriteria): Promise
     const supabase = await createClient()
 
     // Combine queries into a single call using .or() with filters
-    const stageIndustryCode = `${profile.stage}_${profile.industry}`;
+    // Build filters dynamically to handle potential nulls
+    const filters = [];
+    
+    // Always include common questions (if any)
+    filters.push('category.eq.common');
+
+    if (profile.stage) {
+        filters.push(`and(category.eq.stage,mapping_code.eq.${profile.stage})`);
+        filters.push(`and(category.eq.esg,mapping_code.eq.${profile.stage})`);
+    }
+
+    if (profile.stage && profile.industry) {
+        const stageIndustryCode = `${profile.stage}_${profile.industry}`;
+        filters.push(`and(category.eq.industry,mapping_code.eq.${stageIndustryCode})`);
+    }
 
     const { data: allQuestions, error } = await supabase
         .from('questions')
         .select('*')
-        .or(`and(category.eq.stage,mapping_code.eq.${profile.stage}),and(category.eq.industry,mapping_code.eq.${stageIndustryCode}),and(category.eq.esg,mapping_code.eq.${profile.stage})`)
+        .or(filters.join(','))
 
     if (error) {
         console.error("Error fetching questions:", error)
