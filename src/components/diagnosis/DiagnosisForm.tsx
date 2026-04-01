@@ -7,7 +7,7 @@ import { Database } from '@/types/database'
 import QuestionSection from './QuestionSection'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, X } from 'lucide-react'
-import { STAGE_UNIT_SCORES, STAGE_MAX_SCORES, computeSectionScore, getGrade } from '@/lib/scoring-utils'
+import { STAGE_UNIT_SCORES, STAGE_MAX_SCORES, computeSectionScore, getGrade, type Stage, type Dimension } from '@/lib/scoring-utils'
 
 type Question = Database['public']['Tables']['questions']['Row']
 
@@ -71,11 +71,11 @@ export default function DiagnosisForm({
         const maxScores: Record<string, number> = {}
         let scoreSum = 0
 
-        const userStage = (profile?.stage as string) || 'P'
+        const userStage = ((profile?.stage as string) || 'P') as Stage
         const unitScores = STAGE_UNIT_SCORES[userStage] || STAGE_UNIT_SCORES['P']
 
         sections.forEach(sec => {
-            const unitScore = unitScores[sec.id] || 1.0
+            const unitScore = unitScores[sec.id as Dimension] || 1.0
 
             // Map questions to { points, checked } for utility
             const items = sec.questions.map((q, idx) => {

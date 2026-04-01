@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { createClient } from '@/lib/supabase-server';
 
 // Initialize Resend with the API key from environment variables
 // In a real production environment, this should be a valid API key
@@ -7,6 +8,13 @@ const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_dev_on
 
 export async function POST(req: Request) {
     try {
+        // Authentication check — only logged-in users may send emails
+        const supabase = await createClient();
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError || !user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const body = await req.json();
         const { to, companyName, projectName, projectRound, magicLink } = body;
 
@@ -23,7 +31,7 @@ export async function POST(req: Request) {
 
         // HTML Email Template
         const htmlContent = `
-      <div style="font-family: 'Pretendard', sans-serif; max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+      <div style="font-family: 'Pretendard', sans-serif; max-width: 672px; margin-left: auto; margin-right: auto; padding: 24px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); border: 1px solid #f1f5f9;">
         <h1 style="color: #1e293b; font-size: 24px; font-weight: bold; margin-bottom: 24px; text-align: center;">
           ${projectName} ${roundText}진단 안내
         </h1>

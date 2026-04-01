@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { createClient } from '@/lib/supabase-server';
 
 // SMTP Configuration (Hiworks / Gabia)
 const SMTP_HOST = process.env.SMTP_HOSTNAME || 'smtps.hiworks.com';
@@ -9,6 +10,13 @@ const SMTP_PASS = process.env.SMTP_PASSWORD; // App Password
 
 export async function POST(req: Request) {
     try {
+        // Authentication check — only logged-in users may trigger notifications
+        const supabase = await createClient();
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError || !user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const body = await req.json();
         const { record } = body;
 

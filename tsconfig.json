@@ -38,6 +38,9 @@
   ],
   "exclude": [
     "node_modules",
-    "src/_backup_deprecated"
+    "src/_backup_deprecated",
+    "scripts",
+    "tmp",
+    "supabase/functions"
   ]
 }

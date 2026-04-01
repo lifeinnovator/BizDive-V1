@@ -10,23 +10,31 @@ interface DiagnosisCriteria {
     industry: string | null
 }
 
+// 허용된 스테이지 값 — PostgREST 필터 인젝션 방지용 화이트리스트
+const VALID_STAGES = new Set(['P', 'E', 'V', 'M'])
+// 산업 코드: 영문 대소문자·숫자·언더스코어만 허용 (최대 30자)
+const SAFE_CODE_PATTERN = /^[a-zA-Z0-9_]{1,30}$/
+
 export async function getDiagnosisQuestions(profile: DiagnosisCriteria): Promise<Question[]> {
     const supabase = await createClient()
 
-    // Combine queries into a single call using .or() with filters
+    // 입력값 검증 — 허용되지 않은 값이면 공통 질문만 반환
+    const safeStage = profile.stage && VALID_STAGES.has(profile.stage) ? profile.stage : null
+    const safeIndustry = profile.industry && SAFE_CODE_PATTERN.test(profile.industry) ? profile.industry : null
+
     // Build filters dynamically to handle potential nulls
     const filters = [];
-    
+
     // Always include common questions (if any)
     filters.push('category.eq.common');
 
-    if (profile.stage) {
-        filters.push(`and(category.eq.stage,mapping_code.eq.${profile.stage})`);
-        filters.push(`and(category.eq.esg,mapping_code.eq.${profile.stage})`);
+    if (safeStage) {
+        filters.push(`and(category.eq.stage,mapping_code.eq.${safeStage})`);
+        filters.push(`and(category.eq.esg,mapping_code.eq.${safeStage})`);
     }
 
-    if (profile.stage && profile.industry) {
-        const stageIndustryCode = `${profile.stage}_${profile.industry}`;
+    if (safeStage && safeIndustry) {
+        const stageIndustryCode = `${safeStage}_${safeIndustry}`;
         filters.push(`and(category.eq.industry,mapping_code.eq.${stageIndustryCode})`);
     }
 

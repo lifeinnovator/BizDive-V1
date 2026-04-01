@@ -2,16 +2,20 @@ import { Database } from '@/types/database'
 
 type Question = Database['public']['Tables']['questions']['Row']
 
+// 허용된 스테이지 및 차원 리터럴 타입 — 잘못된 키 사용 시 컴파일 타임에 검출
+export type Stage = 'P' | 'E' | 'V' | 'M'
+export type Dimension = 'D1' | 'D2' | 'D3' | 'D4' | 'D5' | 'D6' | 'D7'
+
 // Stage-based scoring configuration (from approved spreadsheet)
 // Unit Score (points per question) / Total Points (max per dimension)
-export const STAGE_UNIT_SCORES: Record<string, Record<string, number>> = {
+export const STAGE_UNIT_SCORES: Record<Stage, Record<Dimension, number>> = {
     P: { D1: 2.0, D2: 2.5, D3: 1.5, D4: 1.0, D5: 1.0, D6: 1.0, D7: 1.0 },
     E: { D1: 1.5, D2: 1.5, D3: 2.5, D4: 1.5, D5: 1.0, D6: 1.0, D7: 1.5 },
     V: { D1: 1.0, D2: 1.0, D3: 1.5, D4: 2.0, D5: 1.5, D6: 1.5, D7: 2.5 },
     M: { D1: 1.0, D2: 1.0, D3: 1.0, D4: 1.5, D5: 2.5, D6: 2.0, D7: 1.0 }
 }
 
-export const STAGE_MAX_SCORES: Record<string, Record<string, number>> = {
+export const STAGE_MAX_SCORES: Record<Stage, Record<Dimension, number>> = {
     P: { D1: 20, D2: 25, D3: 15, D4: 10, D5: 10, D6: 10, D7: 10 },
     E: { D1: 15, D2: 15, D3: 25, D4: 15, D5: 10, D6: 10, D7: 15 },
     V: { D1: 10, D2: 10, D3: 15, D4: 20, D5: 15, D6: 15, D7: 25 },

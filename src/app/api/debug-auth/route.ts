@@ -3,15 +3,38 @@ import { NextResponse } from 'next/server'
 
 // Debug endpoint to check auth and record ownership on Vercel
 // Access: GET /api/debug-auth?recordId=xxx
+// ⚠️  PROTECTED: super_admin / service_operator only
 export async function GET(request: Request) {
+    // Only allow in development OR for super admins in production
+    if (process.env.NODE_ENV === 'production') {
+        const supabaseCheck = await createClient()
+        const { data: { user: checkUser } } = await supabaseCheck.auth.getUser()
+        if (!checkUser) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+        const { data: checkProfile } = await supabaseCheck
+            .from('profiles')
+            .select('role')
+            .eq('id', checkUser.id)
+            .single()
+        const allowedRoles = ['super_admin', 'service_operator']
+        if (!allowedRoles.includes(checkProfile?.role)) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+        }
+    }
+
     const { searchParams } = new URL(request.url)
-    const recordId = searchParams.get('recordId') || 'b9e555d6-95d8-4375-892b-1794ff8a04f9'
-    
+    const recordId = searchParams.get('recordId')
+
+    if (!recordId) {
+        return NextResponse.json({ error: 'recordId query param is required' }, { status: 400 })
+    }
+
     const supabase = await createClient()
-    
+
     // 1. Check auth
     const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
+
     if (!user) {
         return NextResponse.json({
             status: 'AUTH_FAILED',

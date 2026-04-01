@@ -24,7 +24,8 @@ export async function deleteRecordAction(recordId: string) {
             .eq('user_id', user.id)
 
         if (error) {
-            console.error(' [DELETE_ERROR] Detailed Supabase Error:', {
+            // 내부 DB 오류는 서버 로그에만 기록하고 클라이언트에는 일반 메시지 반환
+            console.error('[DELETE_ERROR] Supabase Error:', {
                 code: error.code,
                 message: error.message,
                 details: error.details,
@@ -32,7 +33,7 @@ export async function deleteRecordAction(recordId: string) {
                 recordId,
                 userId: user.id
             })
-            return { success: false, error: `삭제 실패: ${error.message} (코드: ${error.code})` }
+            return { success: false, error: '삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.' }
         }
 
         revalidatePath('/dashboard')

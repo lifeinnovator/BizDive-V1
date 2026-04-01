@@ -14,7 +14,7 @@ import ConsultantBanner from '@/components/report/ConsultantBanner'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import DiagnosisRadarChart from '@/components/report/RadarChart'
-import { STAGE_UNIT_SCORES, STAGE_MAX_SCORES } from '@/lib/scoring-utils'
+import { STAGE_UNIT_SCORES, STAGE_MAX_SCORES, type Stage, type Dimension } from '@/lib/scoring-utils'
 import { generateGrowthRoadmap } from '@/utils/roadmapEngine'
 import { ROADMAP_PRESCRIPTIONS } from '@/data/roadmapData'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -388,8 +388,8 @@ export default async function DynamicReportPage({ params }: ReportPageProps) {
                                         {/* Itemized analysis order: 1, 2, 3, 4, 5, 6, 7 */}
                                         {['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7'].map((dim, idx) => {
                                             const score = dimensionScores[dim] || 0
-                                            const stage = profile?.stage || 'P'
-                                            const maxScore = STAGE_MAX_SCORES[stage]?.[dim] || 15
+                                            const stage = (profile?.stage || 'P') as Stage
+                                            const maxScore = STAGE_MAX_SCORES[stage]?.[dim as Dimension] || 15
                                             const rawScore = (score / 100) * maxScore
 
                                             const prescriptions = ROADMAP_PRESCRIPTIONS[dim] || []
